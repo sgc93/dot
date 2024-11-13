@@ -13,7 +13,6 @@ async function searchProjects() {
 			description: project.description,
 			detail: `By: ${project.owner.name}, Stars: ${project.likes.length}, Comments: ${project.comments.length}`,
 		}));
-		console.log(projectItems);
 
 		return projectItems;
 	} catch (err) {
@@ -33,9 +32,23 @@ function activate(context) {
 		async function () {
 			const projectItems = await searchProjects("simple");
 			if (projectItems) {
-				vscode.window.showInformationMessage(
-					`You got ${projectItems.length} projects`
+				const selectedProject = await vscode.window.showQuickPick(
+					projectItems,
+					{
+						title: "DotCode Public Projects",
+						placeHolder: "Search Projects here ..",
+					}
 				);
+
+				if (selectedProject === undefined) {
+					vscode.window.showInformationMessage("No project is selected👍🏻");
+				} else {
+					vscode.window.showInformationMessage(
+						`You have selected ${selectedProject.label}`
+					);
+				}
+
+				console.log(selectedProject);
 			}
 		}
 	);
