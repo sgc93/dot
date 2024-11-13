@@ -10,7 +10,12 @@ async function searchProjects(query) {
 		const res = await axios.get(
 			`http://127.0.0.1:9000/api/v1/search/projects?q=simple`
 		);
-		console.log(res.data);
+		const searchItems = res.data.data.docs.map((project) => ({
+			label: project.name,
+			description: project.description,
+			detail: `By: ${project.owner.name}, Stars: ${project.likes.length}, Comments: ${project.comments.length}`,
+		}));
+		console.log(searchItems);
 
 		return `${res.data.results} projects found for query '${query}'.`;
 	} catch (err) {
@@ -25,8 +30,6 @@ function activate(context) {
 	const disposable = vscode.commands.registerCommand(
 		"my-first-extension.searchDotCodeProjects",
 		async function () {
-			console.log("Command executed: searchDotCodeProjects");
-
 			const projects = await searchProjects("simple");
 			if (projects) {
 				vscode.window.showInformationMessage(`You got ${projects} projects`);
