@@ -24,12 +24,18 @@ function activate(context) {
 				if (selectedProject === undefined) {
 					vscode.window.showInformationMessage("No project is selected👍🏻");
 				} else {
-					await openProjectContent(selectedProject);
+					if (selectedProject.type === "snippet") {
+						await insertContentAtCursor(selectedProject.code.code);
+					} else {
+						// handle for html, css and js based on current language mode
+					}
+					// handle creating new file and show content of selected project
+					// await openProjectContent(selectedProject);
+					// opening the selected project in the dotcode website
+					// vscode.env.openExternal(selectedProject.link);
 					vscode.window.showInformationMessage(
 						`You have selected ${selectedProject.label}`
 					);
-					// opening the selected project in the dotcode website
-					// vscode.env.openExternal(selectedProject.link);
 				}
 
 				console.log(selectedProject);
@@ -98,6 +104,26 @@ async function openProjectContent(project) {
 		}
 	} catch (error) {
 		vscode.window.showErrorMessage(`Failed to open project: ${error.message}`);
+	}
+}
+
+async function insertContentAtCursor(code) {
+	const editor = vscode.window.activeTextEditor;
+
+	if (editor) {
+		const cursorPosition = editor.selection.active;
+		console.log(cursorPosition);
+		await editor.edit((editBuilder) =>
+			editBuilder.insert(cursorPosition, code)
+		);
+
+		vscode.window.showInformationMessage(
+			"Code inserted at you cursor position."
+		);
+	} else {
+		vscode.window.showErrorMessage(
+			"No active editor found : Unable to access your cursor position"
+		);
 	}
 }
 
