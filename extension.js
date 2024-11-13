@@ -5,22 +5,23 @@ const axios = require("axios");
  * @param {vscode.ExtensionContext} context
  */
 
-async function searchProjects(query) {
+async function searchProjects() {
 	try {
-		const res = await axios.get(
-			`http://127.0.0.1:9000/api/v1/search/projects?q=simple`
-		);
-		const searchItems = res.data.data.docs.map((project) => ({
+		const res = await axios.get(`http://127.0.0.1:9000/api/v1/projects`);
+		const projectItems = res.data.data.docs.map((project) => ({
 			label: project.name,
 			description: project.description,
 			detail: `By: ${project.owner.name}, Stars: ${project.likes.length}, Comments: ${project.comments.length}`,
 		}));
-		console.log(searchItems);
+		console.log(projectItems);
 
-		return `${res.data.results} projects found for query '${query}'.`;
+		return projectItems;
 	} catch (err) {
-		console.log(err);
-		return `Error: ${err.message}`;
+		console.log("Error fetching projects from DotCode Database: ", err.message);
+		vscode.window.showErrorMessage(
+			"Failed to load projects from DotCode server😕"
+		);
+		return null;
 	}
 }
 
@@ -30,15 +31,11 @@ function activate(context) {
 	const disposable = vscode.commands.registerCommand(
 		"my-first-extension.searchDotCodeProjects",
 		async function () {
-			const projects = await searchProjects("simple");
-			if (projects) {
-				vscode.window.showInformationMessage(`You got ${projects} projects`);
-				console.log("Projects fetched successfully:", projects);
-			} else {
+			const projectItems = await searchProjects("simple");
+			if (projectItems) {
 				vscode.window.showInformationMessage(
-					"Error occurred while fetching projects"
+					`You got ${projectItems.length} projects`
 				);
-				console.log("Error occurred while fetching projects");
 			}
 		}
 	);
