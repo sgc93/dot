@@ -75,12 +75,27 @@ async function searchProjects() {
 async function openProjectContent(project) {
 	const isSnippet = project.type === "snippet";
 	try {
-		const document = await vscode.workspace.openTextDocument({
-			content: isSnippet ? project.code.code : project.code.html,
-			language: isSnippet ? project.lngName : "html",
-		});
+		if (isSnippet) {
+			const document = await vscode.workspace.openTextDocument({
+				content: isSnippet ? project.code.code : project.code.html,
+				language: isSnippet ? project.lngName : "html",
+			});
 
-		await vscode.window.showTextDocument(document, { preview: false });
+			await vscode.window.showTextDocument(document, { preview: false });
+		} else {
+			[
+				{ code: project.code.html, lng: "html" },
+				{ code: project.code.css, lng: "css" },
+				{ code: project.code.js, lng: "javascript" },
+			].forEach(async (file) => {
+				const document = await vscode.workspace.openTextDocument({
+					content: file.code,
+					language: file.lng,
+				});
+
+				await vscode.window.showTextDocument(document, { preview: false });
+			});
+		}
 	} catch (error) {
 		vscode.window.showErrorMessage(`Failed to open project: ${error.message}`);
 	}
