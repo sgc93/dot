@@ -12,6 +12,7 @@ async function searchProjects() {
 			label: project.name,
 			description: project.description,
 			detail: `By: ${project.owner.name}, Stars: ${project.likes.length}, Comments: ${project.comments.length}`,
+			link: `http://localhost:5173/community/project/${project._id}`,
 		}));
 
 		return projectItems;
@@ -46,6 +47,7 @@ function activate(context) {
 					vscode.window.showInformationMessage(
 						`You have selected ${selectedProject.label}`
 					);
+					vscode.env.openExternal(selectedProject.link);
 				}
 
 				console.log(selectedProject);
