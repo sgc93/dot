@@ -1,26 +1,48 @@
 const vscode = require("vscode");
+const axios = require("axios");
 
 /**
  * @param {vscode.ExtensionContext} context
  */
+
+async function searchProjects(query) {
+	try {
+		const res = await axios.get(
+			`http://127.0.0.1:9000/api/v1/search/projects?q=simple`
+		);
+		console.log(res.data);
+
+		return `${res.data.results} projects found for query '${query}'.`;
+	} catch (err) {
+		console.log(err);
+		return `Error: ${err.message}`;
+	}
+}
+
 function activate(context) {
-	console.log(
-		'Congratulations, your extension "my-first-extension" is now active!'
-	);
+	console.log('Congratulations, your extension "MyVSC" is now active!');
 
 	const disposable = vscode.commands.registerCommand(
-		"my-first-extension.helloWorld",
-		function () {
-			vscode.window.showInformationMessage(
-				"Hello World from My first extension!"
-			);
+		"my-first-extension.searchDotCodeProjects",
+		async function () {
+			console.log("Command executed: searchDotCodeProjects");
+
+			const projects = await searchProjects("simple");
+			if (projects) {
+				vscode.window.showInformationMessage(`You got ${projects} projects`);
+				console.log("Projects fetched successfully:", projects);
+			} else {
+				vscode.window.showInformationMessage(
+					"Error occurred while fetching projects"
+				);
+				console.log("Error occurred while fetching projects");
+			}
 		}
 	);
 
 	context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
 function deactivate() {}
 
 module.exports = {
