@@ -14,8 +14,8 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "my-first-extension.helloWorld",
-				"title": "Hello World"
+				"command": "my-first-extension.searchDotCodeProjects",
+				"title": "Search DotCode Projects"
 			}
 		]
 	},
