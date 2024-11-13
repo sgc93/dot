@@ -25,7 +25,7 @@ function activate(context) {
 					vscode.window.showInformationMessage("No project is selected👍🏻");
 				} else {
 					if (selectedProject.type === "snippet") {
-						await insertContentAtCursor(selectedProject.code.code);
+						await insertContentAtCursor(selectedProject);
 					} else {
 						// handle for html, css and js based on current language mode
 					}
@@ -107,15 +107,29 @@ async function openProjectContent(project) {
 	}
 }
 
-async function insertContentAtCursor(code) {
+async function insertContentAtCursor(project) {
 	const editor = vscode.window.activeTextEditor;
 
 	if (editor) {
 		const cursorPosition = editor.selection.active;
-		console.log(cursorPosition);
-		await editor.edit((editBuilder) =>
-			editBuilder.insert(cursorPosition, code)
-		);
+		console.log("selected project type: ", project.type);
+		if (project.type === "ui") {
+			let language = editor.document.languageId;
+			if (language === "javascript") {
+				language = "js";
+			}
+			vscode.window.showInformationMessage(
+				`currLng: ${language}, code: ${project.code[language]}`
+			);
+			console.log(`currLng: ${language}, code: ${project.code[language]}`);
+			await editor.edit((editBuilder) =>
+				editBuilder.insert(cursorPosition, project.code[language])
+			);
+		} else {
+			await editor.edit((editBuilder) =>
+				editBuilder.insert(cursorPosition, project.code.code)
+			);
+		}
 
 		vscode.window.showInformationMessage(
 			"Code inserted at you cursor position."
