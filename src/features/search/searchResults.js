@@ -49,7 +49,7 @@ async function insertContentAtCursor(project) {
 			let language = editor.document.languageId;
 			language = language === "javascript" ? "js" : editor.document.languageId;
 
-			if (validator.isCurrLngModeUiLng) {
+			if (validator.isCurrLngModeUiLng(language)) {
 				if (project.code[language]) {
 					await editor.edit((editBuilder) =>
 						editBuilder.insert(cursorPosition, project.code[language])
@@ -59,14 +59,76 @@ async function insertContentAtCursor(project) {
 						`${language.toUpperCase()} Code of selected UI inserted at you cursor position.`
 					);
 				} else {
-					vscode.window.showErrorMessage(
-						`Selected Ui component has no ${language} CONTENT.`
-					);
+					vscode.window
+						.showErrorMessage(
+							`Selected Ui component has no ${language} CONTENT.`,
+							"Insert HTML",
+							"Insert CSS",
+							"Insert JavaScript"
+						)
+						.then(async (selection) => {
+							if (selection === "Insert HTML") {
+								await editor.edit((editBuilder) =>
+									editBuilder.insert(cursorPosition, project.code.html)
+								);
+
+								vscode.window.showInformationMessage(
+									`HTML Code of selected UI inserted at you cursor position.`
+								);
+							} else if (selection === "Insert CSS") {
+								await editor.edit((editBuilder) =>
+									editBuilder.insert(cursorPosition, project.code.css)
+								);
+
+								vscode.window.showInformationMessage(
+									`CSS Code of selected UI inserted at you cursor position.`
+								);
+							} else if (selection === "Insert JavaScript") {
+								await editor.edit((editBuilder) =>
+									editBuilder.insert(cursorPosition, project.code.js)
+								);
+
+								vscode.window.showInformationMessage(
+									`JavaScript Code of selected UI inserted at you cursor position.`
+								);
+							}
+						});
 				}
 			} else {
-				vscode.window.showErrorMessage(
-					`Your current language mode ${language.toUpperCase()} is not a UI language in DotCode, do you want to insert the html part?`
-				);
+				vscode.window
+					.showErrorMessage(
+						`Your current language mode ${language.toUpperCase()} is not a UI language in DotCode, do you want still insert?`,
+						"Insert HTML",
+						"Insert CSS",
+						"Insert JavaScript"
+					)
+					.then(async (selection) => {
+						if (selection === "Insert HTML") {
+							await editor.edit((editBuilder) =>
+								editBuilder.insert(cursorPosition, project.code.html)
+							);
+
+							vscode.window.showInformationMessage(
+								`HTML Code of selected UI inserted at you cursor position.`
+							);
+						} else if (selection === "Insert CSS") {
+							await editor.edit((editBuilder) =>
+								editBuilder.insert(cursorPosition, project.code.css)
+							);
+
+							vscode.window.showInformationMessage(
+								`CSS Code of selected UI inserted at you cursor position.`
+							);
+						} else if (selection === "Insert JavaScript") {
+							await editor.edit((editBuilder) =>
+								editBuilder.insert(cursorPosition, project.code.js)
+							);
+
+							vscode.window.showInformationMessage(
+								`JavaScript Code of selected UI inserted at you cursor position.`
+							);
+						}
+					});
 			}
 		}
 	} else {
