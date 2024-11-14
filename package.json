@@ -15,7 +15,7 @@
 		"commands": [
 			{
 				"command": "my-first-extension.searchDotCodeProjects",
-				"title": "Search DotCode Projects"
+				"title": "DotCode: Search Projects"
 			}
 		]
 	},
