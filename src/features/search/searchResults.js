@@ -62,9 +62,13 @@ async function insertContentAtCursor(project) {
 					vscode.window
 						.showErrorMessage(
 							`Selected Ui component has no ${language} CONTENT.`,
-							language !== "html" && "Insert HTML",
-							language !== "css" && "Insert CSS",
-							language !== "js" && "Insert JavaScript"
+							language !== "html" &&
+								project.code.html.length > 0 &&
+								"Insert HTML",
+							language !== "css" && project.code.css.length > 0 && "Insert CSS",
+							language !== "js" &&
+								project.code.js.length > 0 &&
+								"Insert JavaScript"
 						)
 						.then(async (selection) => {
 							if (selection === "Insert HTML") {
