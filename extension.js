@@ -1,4 +1,5 @@
 const getAllProjects = require("./src/api/projects");
+const validator = require("./src/utils/validators");
 
 const vscode = require("vscode");
 
@@ -90,17 +91,23 @@ async function insertContentAtCursor(project) {
 			let language = editor.document.languageId;
 			language = language === "javascript" ? "js" : editor.document.languageId;
 
-			if (project.code[language]) {
-				await editor.edit((editBuilder) =>
-					editBuilder.insert(cursorPosition, project.code[language])
-				);
+			if (validator.isCurrLngModeUiLng) {
+				if (project.code[language]) {
+					await editor.edit((editBuilder) =>
+						editBuilder.insert(cursorPosition, project.code[language])
+					);
 
-				vscode.window.showInformationMessage(
-					`${language.toUpperCase()} Code of selected UI inserted at you cursor position.`
-				);
+					vscode.window.showInformationMessage(
+						`${language.toUpperCase()} Code of selected UI inserted at you cursor position.`
+					);
+				} else {
+					vscode.window.showErrorMessage(
+						`Selected Ui component has no ${language} CONTENT.`
+					);
+				}
 			} else {
 				vscode.window.showErrorMessage(
-					`Selected Ui component has no ${language}, do you want to insert the html part?`
+					`Your current language mode ${language.toUpperCase()} is not a UI language in DotCode, do you want to insert the html part?`
 				);
 			}
 		}
