@@ -1,5 +1,6 @@
 const handleResults = require("./searchResults");
 const searchProjects = require("../../api/projects");
+const constants = require("../../utils/constants");
 const vscode = require("vscode");
 
 async function search() {
@@ -33,10 +34,30 @@ async function search() {
 			if (selectedProject === undefined) {
 				vscode.window.showInformationMessage("No project is selected👍🏻");
 			} else {
-				handleResults.insertContentAtCursor(selectedProject);
-				// handle inserting selected project code content at the current position of cursor
-				// handle creating new file and show content of selected project
-				// opening the selected project in the dotcode website
+				const selectedAction = await vscode.window.showQuickPick(
+					constants.searchResultActions,
+					{
+						title: `What to do with ${selectedProject.label}?`,
+						placeHolder: "Search Action here ..",
+					}
+				);
+
+				if (selectedAction === undefined) {
+					vscode.window.showInformationMessage(
+						`No Action is selected for '${selectedProject.label}'.`
+					);
+				} else {
+					if (selectedAction.action === "insert") {
+						handleResults.insertContentAtCursor(selectedProject);
+					} else if (selectedAction.action === "open") {
+						handleResults.openProjectContent(selectedProject);
+					} else if (selectedAction.action === "redirect") {
+						handleResults.openInDotCode(selectedProject);
+					}
+					// handle inserting selected project code content at the current position of cursor
+					// handle creating new file and show content of selected project
+					// opening the selected project in the dotcode website
+				}
 			}
 		} else {
 			vscode.window
