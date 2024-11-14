@@ -41,7 +41,9 @@ async function insertContentAtCursor(project) {
 				editBuilder.insert(cursorPosition, project.code.code)
 			);
 			vscode.window.showInformationMessage(
-				`${project.lngName} Code inserted at you cursor position.`
+				`${
+					project.lngName === "other" ? "" : project.lngName
+				} Code inserted at you cursor position.`
 			);
 		} else {
 			let language = editor.document.languageId;
