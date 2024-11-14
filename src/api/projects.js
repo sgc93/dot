@@ -1,36 +1,48 @@
 const vscode = require("vscode");
 const axios = require("axios");
 
-async function getAllProjects() {
+async function searchProjects(query) {
 	try {
-		const res = await axios.get(`http://127.0.0.1:9000/api/v1/projects`);
-		const projectItems = res.data.data.docs.map((project) => ({
-			_id: project._id,
-			lngName: project.lngName === "react" ? "javascript" : project.lngName,
-			description: project.description,
-			type: project.type,
-			code: project.code,
-			label: project.name,
-			detail: `By: ${project.owner.name} | Stars: ${
-				project.likes.length
-			} | Comments: ${project.comments.length} | ${
-				project.type === "ui"
-					? "UI with HTML, CSS and JS"
-					: project.lngName === "react"
-					? "UI with REACT"
-					: "Snippet with " + project.lngName
-			} `,
-			link: `http://localhost:5173/community/project/${project._id}`,
-		}));
+		const res = await axios.get(
+			`http://127.0.0.1:9000/api/v1/search/projects?q=${query}`
+		);
 
-		return projectItems;
+		if (res.data.results === 0) {
+			return { results: res.data.results, projectItems: [] };
+		} else if (res.data.results > 0) {
+			const projectItems = formatIntoQuickPickItems(res.data.data.docs);
+			return { results: projectItems.length, projectItems };
+		}
 	} catch (err) {
-		console.log("Error fetching projects from DotCode Database: ", err.message);
+		console.log("DotCode Fetch Error: ", err.message);
 		vscode.window.showErrorMessage(
-			"Failed to load projects from DotCode server😕"
+			"Failed to search projects from DotCode server😕"
 		);
 		return null;
 	}
 }
 
-module.exports = getAllProjects;
+function formatIntoQuickPickItems(projects) {
+	const formattedItems = projects.map((project) => ({
+		_id: project._id,
+		lngName: project.lngName === "react" ? "javascript" : project.lngName,
+		description: project.description,
+		type: project.type,
+		code: project.code,
+		label: project.name,
+		detail: `By: ${project.owner.name} | Stars: ${
+			project.likes.length
+		} | Comments: ${project.comments.length} | ${
+			project.type === "ui"
+				? "UI with HTML, CSS and JS"
+				: project.lngName === "react"
+				? "UI with REACT"
+				: "Snippet with " + project.lngName
+		} `,
+		link: `http://localhost:5173/community/project/${project._id}`,
+	}));
+
+	return formattedItems;
+}
+
+module.exports = searchProjects;
