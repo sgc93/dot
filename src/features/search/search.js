@@ -9,7 +9,15 @@ async function search() {
 	});
 
 	if (!query) {
-		vscode.window.showErrorMessage("Search query cannot be EMPTY");
+		vscode.window
+			.showErrorMessage("Search query cannot be EMPTY", "Retry")
+			.then((selection) => {
+				if (selection === "Retry") {
+					vscode.commands.executeCommand(
+						"my-first-extension.searchDotCodeProjects"
+					);
+				}
+			});
 		return;
 	} else {
 		const searchResults = await searchProjects(query);
@@ -31,9 +39,21 @@ async function search() {
 				// opening the selected project in the dotcode website
 			}
 		} else {
-			vscode.window.showErrorMessage(
-				`No result found for ${query}: try again with project name, description ro tags`
-			);
+			vscode.window
+				.showErrorMessage(
+					`No result found for ${query}: try again with project name, description ro tags`,
+					"Retry",
+					"Visit DotCode Web"
+				)
+				.then((selection) => {
+					if (selection === "Retry") {
+						vscode.commands.executeCommand(
+							"my-first-extension.searchDotCodeProjects"
+						);
+					} else if (selection === "Visit DotCode Web") {
+						vscode.env.openExternal("http://localhost:5173/community");
+					}
+				});
 			return;
 		}
 	}
