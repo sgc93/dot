@@ -1,5 +1,6 @@
+const getAllProjects = require("./src/api/projects");
+
 const vscode = require("vscode");
-const axios = require("axios");
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -11,7 +12,7 @@ function activate(context) {
 	const disposable = vscode.commands.registerCommand(
 		"my-first-extension.searchDotCodeProjects",
 		async function () {
-			const projectItems = await searchProjects("simple");
+			const projectItems = await getAllProjects();
 			if (projectItems) {
 				const selectedProject = await vscode.window.showQuickPick(
 					projectItems,
@@ -24,11 +25,8 @@ function activate(context) {
 				if (selectedProject === undefined) {
 					vscode.window.showInformationMessage("No project is selected👍🏻");
 				} else {
-					if (selectedProject.type === "snippet") {
-						await insertContentAtCursor(selectedProject);
-					} else {
-						// handle for html, css and js based on current language mode
-					}
+					await insertContentAtCursor(selectedProject);
+
 					// handle creating new file and show content of selected project
 					// await openProjectContent(selectedProject);
 					// opening the selected project in the dotcode website
@@ -44,38 +42,6 @@ function activate(context) {
 	);
 
 	context.subscriptions.push(disposable);
-}
-
-async function searchProjects() {
-	try {
-		const res = await axios.get(`http://127.0.0.1:9000/api/v1/projects`);
-		const projectItems = res.data.data.docs.map((project) => ({
-			_id: project._id,
-			lngName: project.lngName === "react" ? "javascript" : project.lngName,
-			description: project.description,
-			type: project.type,
-			code: project.code,
-			label: project.name,
-			detail: `By: ${project.owner.name} | Stars: ${
-				project.likes.length
-			} | Comments: ${project.comments.length} | ${
-				project.type === "ui"
-					? "UI with HTML, CSS and JS"
-					: project.lngName === "react"
-					? "UI with REACT"
-					: "Snippet with " + project.lngName
-			} `,
-			link: `http://localhost:5173/community/project/${project._id}`,
-		}));
-
-		return projectItems;
-	} catch (err) {
-		console.log("Error fetching projects from DotCode Database: ", err.message);
-		vscode.window.showErrorMessage(
-			"Failed to load projects from DotCode server😕"
-		);
-		return null;
-	}
 }
 
 async function openProjectContent(project) {
@@ -112,28 +78,32 @@ async function insertContentAtCursor(project) {
 
 	if (editor) {
 		const cursorPosition = editor.selection.active;
-		console.log("selected project type: ", project.type);
-		if (project.type === "ui") {
-			let language = editor.document.languageId;
-			if (language === "javascript") {
-				language = "js";
-			}
-			vscode.window.showInformationMessage(
-				`currLng: ${language}, code: ${project.code[language]}`
-			);
-			console.log(`currLng: ${language}, code: ${project.code[language]}`);
-			await editor.edit((editBuilder) =>
-				editBuilder.insert(cursorPosition, project.code[language])
-			);
-		} else {
+
+		if (project.type === "snippet") {
 			await editor.edit((editBuilder) =>
 				editBuilder.insert(cursorPosition, project.code.code)
 			);
-		}
+			vscode.window.showInformationMessage(
+				`${project.lngName} Code inserted at you cursor position.`
+			);
+		} else {
+			let language = editor.document.languageId;
+			language = language === "javascript" ? "js" : editor.document.languageId;
 
-		vscode.window.showInformationMessage(
-			"Code inserted at you cursor position."
-		);
+			if (project.code[language]) {
+				await editor.edit((editBuilder) =>
+					editBuilder.insert(cursorPosition, project.code[language])
+				);
+
+				vscode.window.showInformationMessage(
+					`${language.toUpperCase()} Code of selected UI inserted at you cursor position.`
+				);
+			} else {
+				vscode.window.showErrorMessage(
+					`Selected Ui component has no ${language}, do you want to insert the html part?`
+				);
+			}
+		}
 	} else {
 		vscode.window.showErrorMessage(
 			"No active editor found : Unable to access your cursor position"
