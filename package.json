@@ -23,7 +23,7 @@
 				{
 					"id": "dotCodeSidebar",
 					"title": "DotCode",
-					"icon": "resources/dot.png"
+					"icon": "resources/dot.svg"
 				}
 			]
 		},
@@ -32,7 +32,7 @@
 				{
 					"id": "dotCodeView",
 					"name": "DotCode",
-					"icon": "resources/dot.png",
+					"icon": "resources/dot.svg",
 					"contextualTitle": "DotCode"
 				}
 			]
