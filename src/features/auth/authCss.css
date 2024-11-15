@@ -54,8 +54,18 @@ header button:hover {
 	width: 100%;
 	height: 100%;
 	display: flex;
+	flex-direction: column;
+	gap: 2rem;
 	align-items: center;
 	justify-content: center;
+}
+
+.form-box span {
+	color: red;
+	font-weight: bold;
+	border: 1px solid red;
+	padding: 0.4rem 0.8rem;
+	border-radius: 0.3rem;
 }
 
 form {
@@ -129,4 +139,8 @@ button {
 
 .shown {
 	display: flex;
+}
+
+.not-seen {
+	opacity: 0;
 }
