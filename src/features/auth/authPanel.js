@@ -1,5 +1,6 @@
 const getAuthWebContent = require("./authWebContent");
 const vscode = require("vscode");
+const handleLogin = require("../../api/login");
 
 const dotCodeAuthPanel = (action, context) => {
 	const panel = vscode.window.createWebviewPanel(
@@ -13,12 +14,10 @@ const dotCodeAuthPanel = (action, context) => {
 
 	panel.webview.html = getAuthWebContent(action);
 	panel.webview.onDidReceiveMessage(
-		(message) => {
+		async (message) => {
 			const data = message.data;
 			if (message.command === "login") {
-				vscode.window.showInformationMessage(
-					`Login data:- email: ${data.email}, password: ${data.password}`
-				);
+				await handleLogin(data);
 			} else if (message.command === "signUp") {
 				vscode.window.showInformationMessage(
 					`Sign Up data:- name: ${data.name}, email: ${data.email}, password: ${data.password}, confirmPassword: ${data.confirmPassword}`
