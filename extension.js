@@ -1,8 +1,6 @@
-const DotCodeWebViewProvider = require("./src/features/sidebar/dotCodeWebiewProvieder");
-
-const search = require("./src/features/search/search");
-
 const vscode = require("vscode");
+const search = require("./src/features/search/search");
+const dotCodeAuthPanel = require("./src/features/auth/authPanel");
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -18,10 +16,15 @@ function activate(context) {
 		}
 	);
 
-	const sidebarProvider = new DotCodeWebViewProvider(context.extensionUri);
-
 	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider("dotCodeView", sidebarProvider)
+		vscode.commands.registerCommand("my-first-extension.login", () =>
+			dotCodeAuthPanel("login")
+		)
+	);
+	context.subscriptions.push(
+		vscode.commands.registerCommand("my-first-extension.signUp", () =>
+			dotCodeAuthPanel("signUp")
+		)
 	);
 
 	context.subscriptions.push(disposable);
