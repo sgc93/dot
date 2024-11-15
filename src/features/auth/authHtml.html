@@ -9,12 +9,12 @@
 	<body>
 		<header>
 			<a>dot</a>
-			<button id="login" class="header-btn active">Login</button>
-			<button id="signup" class="header-btn">Sign Up</button>
+			<button id="login" class="{{loginBtnInitClasses}}">Login</button>
+			<button id="signup" class="{{signUpBtnInitClasses}}">Sign Up</button>
 			<button>Forget Password</button>
 		</header>
 		<div class="form-box">
-			<form id="loginForm" class="form shown">
+			<form id="loginForm" class="{{loginFormInitClasses}}">
 				<div>
 					<label for="email" id="usernameLabel">Email:</label>
 					<input
@@ -37,7 +37,7 @@
 				</div>
 				<button type="submit">Login</button>
 			</form>
-			<form id="signUpForm" class="form hidden">
+			<form id="signUpForm" class="{{signUpFormInitClasses}}">
 				<div>
 					<label for="username" id="usernameLabel">Username:</label>
 					<input
@@ -86,12 +86,9 @@
 
 		<script>
 			document.addEventListener("DOMContentLoaded", () => {
-				console.log("script loaded!");
 				const buttons = document.querySelectorAll(".header-btn");
 				const loginForm = document.getElementById("loginForm");
 				const signUpForm = document.getElementById("signUpForm");
-
-				console.log(signUpForm);
 
 				buttons.forEach((button) => {
 					button.addEventListener("click", () => {
