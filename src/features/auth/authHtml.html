@@ -81,6 +81,7 @@
 
 		<script>
 			document.addEventListener("DOMContentLoaded", () => {
+				const vscode = acquireVsCodeApi();
 				const buttons = document.querySelectorAll(".header-btn");
 				const fields = Array.from(document.getElementsByTagName("input"));
 				const errorBox = document.getElementById("error-box");
@@ -103,8 +104,7 @@
 					return username.length >= 3;
 				};
 
-				const validateUsername = () => {
-					const username = usernameField.value;
+				const validateUsername = (username) => {
 					if (isEmpty(username)) {
 						errorBox.classList.remove("not-seen");
 						errorBox.innerHTML = "Please add Username";
@@ -167,8 +167,7 @@
 					return pass === confirmPass;
 				};
 
-				const validatePasswordConfirm = (password) => {
-					const confirmPass = confirmPasswordField.value;
+				const validatePasswordConfirm = (password, confirmPass) => {
 					if (isEmpty(confirmPass)) {
 						errorBox.classList.remove("not-seen");
 						errorBox.innerHTML = "Please confirm your password";
@@ -225,7 +224,14 @@
 
 					if (validateEmail(email)) {
 						if (validatePassword(password)) {
-							console.log("you data is validated as true");
+							const data = {
+								email,
+								password,
+							};
+							vscode.postMessage({
+								command: "login",
+								data: data,
+							});
 						}
 					}
 				});
@@ -233,13 +239,24 @@
 				// sign up form submision
 				signUpBtn.addEventListener("click", (event) => {
 					event.preventDefault();
+					const username = usernameField.value;
 					const email = signUpEmailField.value;
 					const password = signUpPassField.value;
-					if (validateUsername()) {
+					const confirmPass = confirmPasswordField.value;
+					if (validateUsername(username)) {
 						if (validateEmail(email)) {
 							if (validatePassword(password)) {
-								if (validatePasswordConfirm(password)) {
-									console.log("you data is validated as true");
+								if (validatePasswordConfirm(password, confirmPass)) {
+									const data = {
+										name: username,
+										email,
+										password,
+										confirmPassword: confirmPass,
+									};
+									vscode.postMessage({
+										command: "signUp",
+										data: data,
+									});
 								}
 							}
 						}
