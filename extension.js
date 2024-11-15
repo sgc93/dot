@@ -1,3 +1,5 @@
+const DotCodeWebViewProvider = require("./src/features/sidebar/dotCodeWebiewProvieder");
+
 const search = require("./src/features/search/search");
 
 const vscode = require("vscode");
@@ -14,6 +16,12 @@ function activate(context) {
 		async function () {
 			await search();
 		}
+	);
+
+	const sidebarProvider = new DotCodeWebViewProvider(context.extensionUri);
+
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider("dotCodeView", sidebarProvider)
 	);
 
 	context.subscriptions.push(disposable);
