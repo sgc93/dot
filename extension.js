@@ -23,7 +23,7 @@ function activate(context) {
 	);
 	context.subscriptions.push(
 		vscode.commands.registerCommand("my-first-extension.signUp", () =>
-			dotCodeAuthPanel("Sign Up")
+			dotCodeAuthPanel("Sign Up", context)
 		)
 	);
 
