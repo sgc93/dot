@@ -17,7 +17,26 @@
 				"command": "my-first-extension.searchDotCodeProjects",
 				"title": "DotCode: Search Projects"
 			}
-		]
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "dotCodeSidebar",
+					"title": "DotCode",
+					"icon": "resources/dot.png"
+				}
+			]
+		},
+		"views": {
+			"dotCodeSidebar": [
+				{
+					"id": "dotCodeView",
+					"name": "DotCode",
+					"icon": "resources/dot.png",
+					"contextualTitle": "DotCode"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"lint": "eslint .",
