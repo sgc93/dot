@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>DotCode Login</title>
+		{{style}}
+	</head>
+	<body>
+		<header>
+			<a>dot</a>
+			<button id="login" class="header-btn active">Login</button>
+			<button id="signup" class="header-btn">Sign Up</button>
+			<button>Forget Password</button>
+		</header>
+		<div class="form-box">
+			<form id="loginForm" class="form shown">
+				<div>
+					<label for="email" id="usernameLabel">Email:</label>
+					<input
+						type="email"
+						id="email"
+						name="email"
+						required
+						placeholder="Your email"
+					/>
+				</div>
+				<div>
+					<label for="password" id="passwordLabel">Password:</label>
+					<input
+						type="password"
+						id="password"
+						name="password"
+						required
+						placeholder="Your password"
+					/>
+				</div>
+				<button type="submit">Login</button>
+			</form>
+			<form id="signUpForm" class="form hidden">
+				<div>
+					<label for="username" id="usernameLabel">Username:</label>
+					<input
+						type="text"
+						id="username"
+						name="username"
+						required
+						placeholder="Username"
+					/>
+				</div>
+				<div>
+					<label for="email" id="emailLabel">Email:</label>
+					<input
+						type="email"
+						id="email"
+						name="email"
+						required
+						placeholder="Email"
+					/>
+				</div>
+				<div>
+					<label for="password" id="passwordLabel">Password:</label>
+					<input
+						type="password"
+						id="password"
+						name="password"
+						required
+						placeholder="Password"
+					/>
+				</div>
+				<div>
+					<label for="confirmPassword" id="confirmPasswordLabel"
+						>Confirm Password:</label
+					>
+					<input
+						type="confirmPassword"
+						id="confirmPassword"
+						name="confirmPassword"
+						required
+						placeholder="Confim Password"
+					/>
+				</div>
+				<button type="submit">Sign UP</button>
+			</form>
+		</div>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				console.log("script loaded!");
+				const buttons = document.querySelectorAll(".header-btn");
+				const loginForm = document.getElementById("loginForm");
+				const signUpForm = document.getElementById("signUpForm");
+
+				console.log(signUpForm);
+
+				buttons.forEach((button) => {
+					button.addEventListener("click", () => {
+						buttons.forEach((btn) => btn.classList.remove("active"));
+
+						button.classList.add("active");
+						const btnId = button.innerHTML;
+						if (btnId === "Login") {
+							loginForm.classList.remove("hidden");
+							loginForm.classList.add("shown");
+							signUpForm.classList.remove("shown");
+							signUpForm.classList.add("hidden");
+						} else if (btnId === "Sign Up") {
+							signUpForm.classList.remove("hidden");
+							signUpForm.classList.add("shown");
+							loginForm.classList.remove("shown");
+							loginForm.classList.add("hidden");
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>
