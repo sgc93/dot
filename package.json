@@ -16,6 +16,14 @@
 			{
 				"command": "my-first-extension.searchDotCodeProjects",
 				"title": "DotCode: Search Projects"
+			},
+			{
+				"command": "my-first-extension.login",
+				"title": "DotCode: Login"
+			},
+			{
+				"command": "my-first-extension.signUp",
+				"title": "DotCode: Sign Up"
 			}
 		],
 		"viewsContainers": {
