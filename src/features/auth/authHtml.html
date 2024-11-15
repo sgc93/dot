@@ -14,6 +14,7 @@
 			<button>Forget Password</button>
 		</header>
 		<div class="form-box">
+			<span id="error-box" class="not-seen"> Error </span>
 			<form id="loginForm" class="{{loginFormInitClasses}}">
 				<div>
 					<label for="email" id="usernameLabel">Email:</label>
@@ -21,7 +22,6 @@
 						type="email"
 						id="email"
 						name="email"
-						required
 						placeholder="Your email"
 					/>
 				</div>
@@ -31,11 +31,10 @@
 						type="password"
 						id="password"
 						name="password"
-						required
 						placeholder="Your password"
 					/>
 				</div>
-				<button type="submit">Login</button>
+				<button id="loginBtn">Login</button>
 			</form>
 			<form id="signUpForm" class="{{signUpFormInitClasses}}">
 				<div>
@@ -44,27 +43,24 @@
 						type="text"
 						id="username"
 						name="username"
-						required
 						placeholder="Username"
 					/>
 				</div>
 				<div>
-					<label for="email" id="emailLabel">Email:</label>
+					<label for="signUpEmail" id="emailLabel">Email:</label>
 					<input
 						type="email"
-						id="email"
-						name="email"
-						required
+						id="signUpEmail"
+						name="signUpEmail"
 						placeholder="Email"
 					/>
 				</div>
 				<div>
-					<label for="password" id="passwordLabel">Password:</label>
+					<label for="signUpPass" id="passwordLabel">Password:</label>
 					<input
 						type="password"
-						id="password"
-						name="password"
-						required
+						id="signUpPass"
+						name="signUpPass"
 						placeholder="Password"
 					/>
 				</div>
@@ -73,28 +69,139 @@
 						>Confirm Password:</label
 					>
 					<input
-						type="confirmPassword"
+						type="password"
 						id="confirmPassword"
 						name="confirmPassword"
-						required
 						placeholder="Confim Password"
 					/>
 				</div>
-				<button type="submit">Sign UP</button>
+				<button id="signUpBtn">Sign UP</button>
 			</form>
 		</div>
 
 		<script>
 			document.addEventListener("DOMContentLoaded", () => {
 				const buttons = document.querySelectorAll(".header-btn");
+				const fields = Array.from(document.getElementsByTagName("input"));
+				const errorBox = document.getElementById("error-box");
 				const loginForm = document.getElementById("loginForm");
+				const loginBtn = document.getElementById("loginBtn");
 				const signUpForm = document.getElementById("signUpForm");
+				const signUpBtn = document.getElementById("signUpBtn");
+				const emailField = document.getElementById("email");
+				const passwordField = document.getElementById("password");
+				const signUpEmailField = document.getElementById("signUpEmail");
+				const signUpPassField = document.getElementById("signUpPass");
+				const usernameField = document.getElementById("username");
+				const confirmPasswordField = document.getElementById("confirmPassword");
+
+				const isEmpty = (value) => {
+					return value.length === 0;
+				};
+
+				const isValidUsername = (username) => {
+					return username.length >= 3;
+				};
+
+				const validateUsername = () => {
+					const username = usernameField.value;
+					if (isEmpty(username)) {
+						errorBox.classList.remove("not-seen");
+						errorBox.innerHTML = "Please add Username";
+						return false;
+					} else {
+						if (!isValidUsername(username)) {
+							errorBox.classList.remove("not-seen");
+							errorBox.innerHTML =
+								"Username must contain at least 3 characters";
+							return false;
+						} else {
+							return true;
+						}
+					}
+				};
+
+				const isValidEmail = (email) => {
+					const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+					return emailRegex.test(email);
+				};
+
+				const validateEmail = (email) => {
+					if (isEmpty(email)) {
+						errorBox.classList.remove("not-seen");
+						errorBox.innerHTML = "Please enter your email";
+						return false;
+					} else {
+						if (!isValidEmail(email)) {
+							errorBox.classList.remove("not-seen");
+							errorBox.innerHTML = "Invalid email format";
+							return false;
+						} else {
+							return true;
+						}
+					}
+				};
+
+				const isValidPassword = (password) => {
+					return password.length >= 6;
+				};
+
+				const validatePassword = (password) => {
+					if (isEmpty(password)) {
+						errorBox.classList.remove("not-seen");
+						errorBox.innerHTML = "Please enter your password";
+						return false;
+					} else {
+						if (!isValidPassword(password)) {
+							errorBox.classList.remove("not-seen");
+							errorBox.innerHTML =
+								"Password must contain at least 6 characters";
+							return false;
+						} else {
+							return true;
+						}
+					}
+				};
+
+				const isPasswordConfirmed = (pass, confirmPass) => {
+					return pass === confirmPass;
+				};
+
+				const validatePasswordConfirm = (password) => {
+					const confirmPass = confirmPasswordField.value;
+					if (isEmpty(confirmPass)) {
+						errorBox.classList.remove("not-seen");
+						errorBox.innerHTML = "Please confirm your password";
+						return false;
+					} else {
+						if (!isPasswordConfirmed(password, confirmPass)) {
+							errorBox.classList.remove("not-seen");
+							errorBox.innerHTML =
+								"Password confirmation Failed, confirm you password again";
+							return false;
+						} else {
+							return true;
+						}
+					}
+				};
+
+				// clear validation error as soon as user focus a field
+				fields.forEach((field) => {
+					field.addEventListener("keyup", () => {
+						if (!errorBox.classList.contains("not-seen")) {
+							errorBox.classList.add("not-seen");
+							errorBox.innerHTML = "No Error: ";
+						}
+					});
+				});
 
 				buttons.forEach((button) => {
 					button.addEventListener("click", () => {
 						buttons.forEach((btn) => btn.classList.remove("active"));
-
 						button.classList.add("active");
+						errorBox.classList.add("not-seen");
+						errorBox.innerHTML = "No Error: ";
+
 						const btnId = button.innerHTML;
 						if (btnId === "Login") {
 							loginForm.classList.remove("hidden");
@@ -108,6 +215,35 @@
 							loginForm.classList.add("hidden");
 						}
 					});
+				});
+
+				// login form submision
+				loginBtn.addEventListener("click", (event) => {
+					event.preventDefault();
+					const email = emailField.value;
+					const password = passwordField.value;
+
+					if (validateEmail(email)) {
+						if (validatePassword(password)) {
+							console.log("you data is validated as true");
+						}
+					}
+				});
+
+				// sign up form submision
+				signUpBtn.addEventListener("click", (event) => {
+					event.preventDefault();
+					const email = signUpEmailField.value;
+					const password = signUpPassField.value;
+					if (validateUsername()) {
+						if (validateEmail(email)) {
+							if (validatePassword(password)) {
+								if (validatePasswordConfirm(password)) {
+									console.log("you data is validated as true");
+								}
+							}
+						}
+					}
 				});
 			});
 		</script>
