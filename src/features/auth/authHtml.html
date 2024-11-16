@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<header>
-			<a>dot</a>
+			<a id="dotCodeLink">dot</a>
 			<button id="login" class="{{loginBtnInitClasses}}">Login</button>
 			<button id="signup" class="{{signUpBtnInitClasses}}">Sign Up</button>
 			<button>Forget Password</button>
@@ -83,8 +83,10 @@
 			document.addEventListener("DOMContentLoaded", () => {
 				const vscode = acquireVsCodeApi();
 				const buttons = document.querySelectorAll(".header-btn");
-				const fields = Array.from(document.getElementsByTagName("input"));
 				const errorBox = document.getElementById("error-box");
+				const dotCodeLink = document.getElementById("dotCodeLink");
+
+				const fields = Array.from(document.getElementsByTagName("input"));
 				const loginForm = document.getElementById("loginForm");
 				const loginBtn = document.getElementById("loginBtn");
 				const signUpForm = document.getElementById("signUpForm");
@@ -261,6 +263,14 @@
 							}
 						}
 					}
+				});
+
+				dotCodeLink.addEventListener("click", (event) => {
+					event.preventDefault();
+					vscode.postMessage({
+						command: "redirect",
+						data: "http://localhost:5173",
+					});
 				});
 			});
 		</script>
