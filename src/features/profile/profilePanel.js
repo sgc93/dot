@@ -1,15 +1,14 @@
 const getProfileWebContent = require("./profileWebContent");
 const vscode = require("vscode");
-const handleLogin = require("../../api/login");
+const redirect = require("../../utils/helpers");
 
 const handleReceivedMessage = async (message) => {
-	const data = message.data;
-	if (message.command === "login") {
-		await handleLogin(data);
-	} else if (message.command === "signUp") {
-		vscode.window.showInformationMessage(
-			`Sign Up data:- name: ${data.name}, email: ${data.email}, password: ${data.password}, confirmPassword: ${data.confirmPassword}`
-		);
+	if (message.command === "logout") {
+		vscode.window.showInformationMessage("logging out ...");
+	} else if (message.command === "detailProfile") {
+		vscode.env.openExternal("http://localhost:5173/profile/dfsdflsdf");
+	} else if (message.command === "redirect") {
+		redirect(message.data);
 	}
 };
 

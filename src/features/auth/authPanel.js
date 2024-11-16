@@ -1,7 +1,8 @@
-const getAuthWebContent = require("./authWebContent");
 const vscode = require("vscode");
+const getAuthWebContent = require("./authWebContent");
 const handleLogin = require("../../api/login");
 const redirect = require("../../utils/helpers");
+const userData = require("../../utils/userData");
 
 const handleReceivedMessage = async (message) => {
 	const data = message.data;
