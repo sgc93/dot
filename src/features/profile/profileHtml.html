@@ -3,18 +3,15 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Account</title>
+		<title>DotCode Profile</title>
+		{{style}}
 	</head>
 	<body>
 		<header>
 			<a>dot</a>
-			<button id="account" class="header-account_btn header-btn active">
-				Qene
-			</button>
-			<button id="profile" class="header-profile_btn header-btn">
-				My Profile
-			</button>
-			<button id="logout" class="header-logout_btn header-btn">Log out</button>
+			<button id="account" class="{{accountBtnInitClass}}">Qene</button>
+			<button id="profile" class="{{profileBtnInitClass}}">My Profile</button>
+			<button id="logout" class="{{logoutBtnInitClass}}">Log out</button>
 		</header>
 		<div class="content-box">
 			<div id="accountBox" class="content-box_data shown">
@@ -76,11 +73,9 @@
 							updateClassList(profileBox, "hidden", "shown");
 							updateClassList(logoutBox, "shown", "hidden");
 						} else {
-							{
-								updateClassList(accountBox, "shown", "hidden");
-								updateClassList(profileBox, "hidden", "shown");
-								updateClassList(logoutBox, "hidden", "shown");
-							}
+							updateClassList(accountBox, "shown", "hidden");
+							updateClassList(profileBox, "hidden", "shown");
+							updateClassList(logoutBox, "hidden", "shown");
 						}
 					});
 				});
