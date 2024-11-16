@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Account</title>
+	</head>
+	<body>
+		<header>
+			<a>dot</a>
+			<button id="account" class="header-account_btn header-btn active">
+				Qene
+			</button>
+			<button id="profile" class="header-profile_btn header-btn">
+				My Profile
+			</button>
+			<button id="logout" class="header-logout_btn header-btn">Log out</button>
+		</header>
+		<div class="content-box">
+			<div id="accountBox" class="content-box_data shown">
+				<span class="name"> Qene </span>
+				<span class="email"> qene@gmail.com </span>
+				<span class="bio">
+					Riding vscode towards the top of the leadership table
+				</span>
+				<span class="loginTime"> Logged in 2 days ago </span>
+				<button id="checkBtn" class="check-btn">see detail</button>
+				<div class="devider"></div>
+				<div class="logOut-box">
+					<span>Do you want to log out temporarily?</span>
+					<button id="logoutBtn">Log Out</button>
+				</div>
+			</div>
+			<div id="profileBox" class="content-box_data hidden">
+				<div class="devider"></div>
+				<div class="leave-box">
+					<span>Do you want to open your profile in browser?</span>
+					<button id="logoutBtn">Open In DotCode</button>
+				</div>
+				<div class="devider"></div>
+			</div>
+			<div id="logoutBox" class="content-box_data hidden">
+				<div class="devider"></div>
+				<div class="logOut-box">
+					<span>Do you want to log out temporarily?</span>
+					<button id="logoutBtn">Log Out</button>
+				</div>
+				<div class="devider"></div>
+			</div>
+		</div>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const buttons = document.querySelectorAll(".header-btn");
+				const accountBox = document.getElementById("accountBox");
+				const profileBox = document.getElementById("profileBox");
+				const logoutBox = document.getElementById("logoutBox");
+
+				const updateClassList = (element, addedClass, removedClass) => {
+					element.classList.remove(removedClass);
+					element.classList.add(addedClass);
+				};
+
+				buttons.forEach((button) => {
+					button.addEventListener("click", () => {
+						buttons.forEach((btn) => btn.classList.remove("active"));
+						button.classList.add("active");
+
+						const btnId = button.innerHTML;
+						if (btnId === "My Profile") {
+							updateClassList(accountBox, "hidden", "shown");
+							updateClassList(profileBox, "shown", "hidden");
+							updateClassList(logoutBox, "hidden", "shown");
+						} else if (btnId === "Log out") {
+							updateClassList(accountBox, "hidden", "shown");
+							updateClassList(profileBox, "hidden", "shown");
+							updateClassList(logoutBox, "shown", "hidden");
+						} else {
+							{
+								updateClassList(accountBox, "shown", "hidden");
+								updateClassList(profileBox, "hidden", "shown");
+								updateClassList(logoutBox, "hidden", "shown");
+							}
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>
