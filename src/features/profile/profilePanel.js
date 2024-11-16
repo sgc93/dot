@@ -1,10 +1,10 @@
-const getAuthWebContent = require("./profileWebContent");
+const getProfileWebContent = require("./profileWebContent");
 const vscode = require("vscode");
 const handleLogin = require("../../api/login");
 
-const dotCodeAuthPanel = (action, context) => {
+const dotCodeProfilePanel = (action, context) => {
 	const panel = vscode.window.createWebviewPanel(
-		"account",
+		"profile",
 		`DotCode - ${action}`,
 		vscode.ViewColumn.one,
 		{
@@ -12,7 +12,7 @@ const dotCodeAuthPanel = (action, context) => {
 		}
 	);
 
-	panel.webview.html = getAuthWebContent(action);
+	panel.webview.html = getProfileWebContent(action);
 	panel.webview.onDidReceiveMessage(
 		async (message) => {
 			const data = message.data;
@@ -29,4 +29,4 @@ const dotCodeAuthPanel = (action, context) => {
 	);
 };
 
-module.exports = dotCodeAuthPanel;
+module.exports = dotCodeProfilePanel;
