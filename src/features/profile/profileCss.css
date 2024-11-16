@@ -1,0 +1,195 @@
+body {
+	font-family: Arial, sans-serif;
+	margin: 2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 4rem;
+}
+
+.active {
+	border-bottom: 2px solid #858eff;
+	border-radius: 0.3rem 0.3rem 0rem 0rem;
+	background-color: #555;
+	color: #fff;
+}
+
+header {
+	display: flex;
+	align-items: center;
+	gap: 0.3rem;
+}
+
+header a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	width: 2.2rem;
+	height: 2.2rem;
+	border-radius: 50%;
+	border: 2px solid #858eff;
+	margin-right: 0.6rem;
+	font-size: 1rem;
+	color: #858eff;
+
+	transition: all 0.4s;
+}
+
+header a:hover {
+	color: white;
+	background-color: #858eff;
+}
+
+header button {
+	border-radius: 0.2rem;
+	padding: 0.5rem 1rem;
+	color: #fff9;
+	background-color: #5556;
+	border-bottom: 2px solid transparent;
+}
+
+header button:hover {
+	color: #fff;
+	background-color: #555;
+}
+
+.content-box {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	align-items: center;
+	justify-content: center;
+}
+
+.content-box_data {
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 17rem;
+}
+
+.name {
+	font-weight: bold;
+	font-size: 1.5rem;
+	color: #fff;
+}
+
+.email {
+	font-weight: bold;
+	font-size: 1rem;
+	color: #fff9;
+}
+
+.bio {
+	font-size: 1rem;
+	color: #fff5;
+	text-transform: lowercase;
+}
+
+.loginTime {
+	font-size: 0.8rem;
+	color: #555;
+	text-transform: lowercase;
+}
+
+button {
+	padding: 10px;
+	font-size: 16px;
+	color: white;
+	font-weight: bold;
+	font-size: 1.1rem;
+	outline: none;
+	border: none;
+
+	cursor: pointer;
+	transition: all 0.3s;
+}
+
+.check-btn {
+	background-color: #fff1;
+	color: #fff9;
+	text-transform: capitalize;
+}
+
+.check-btn:hover {
+	background-color: #fff3;
+	color: #fff;
+}
+
+.logOut-box {
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	gap: 0.5rem;
+	border: 1px solid #ff776f;
+	padding: 0.5rem;
+	border-radius: 0.3rem;
+}
+
+.logOut-box span {
+	font-size: 0.9rem;
+	color: #ff776f;
+}
+
+.logOut-box button {
+	align-self: flex-end;
+	border-radius: 0.3rem;
+	padding: 0.4rem 1rem;
+	background-color: #ff555f;
+	color: #fff9;
+	text-transform: capitalize;
+}
+
+.logOut-box button:hover {
+	background-color: red;
+	color: #fff;
+}
+
+.leave-box {
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	gap: 0.5rem;
+	border: 1px solid #fff6;
+	padding: 0.5rem;
+	border-radius: 0.3rem;
+}
+
+.leave-box span {
+	font-size: 0.9rem;
+	color: #fff9;
+}
+
+.leave-box button {
+	align-self: flex-end;
+	border-radius: 0.2rem;
+	padding: 0.5rem 1rem;
+	color: #fff9;
+	background-color: #5556;
+	border-bottom: 2px solid transparent;
+}
+
+.leave-box button:hover {
+	color: #fff;
+	background-color: #555;
+}
+
+.devider {
+	height: 1px;
+	flex-grow: 1;
+	background-color: #fff4;
+	margin: 0.7rem 0rem;
+}
+
+.hidden {
+	display: none;
+}
+
+.shown {
+	display: flex;
+}
+
+.not-seen {
+	opacity: 0;
+}
