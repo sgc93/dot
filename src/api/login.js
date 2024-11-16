@@ -1,3 +1,5 @@
+const userData = require("../utils/userData");
+
 const axios = require("axios");
 const vscode = require("vscode");
 
@@ -13,9 +15,17 @@ const handleLogin = async (data) => {
 				withCredentials: true,
 			}
 		);
-		console.log(response.data);
+		const user = response.data.data.user;
+		const token = response.data.token;
+		userData.saveUserData({
+			name: user.name,
+			userId: user._id,
+			email: user.email,
+			bio: user.bio,
+			token,
+		});
 		vscode.window.showInformationMessage(
-			`Logged in successfully! .... \n token: ${response.data.token}`
+			`Welcome ${user.name}, You Have Logged In Successfully 👍🏻`
 		);
 		return;
 	} catch (error) {
@@ -25,7 +35,7 @@ const handleLogin = async (data) => {
 				: error.message
 			: error.message;
 
-		vscode.window.showErrorMessage(`${message}, try again!`);
+		vscode.window.showErrorMessage(`${message}`);
 		return;
 	}
 };
