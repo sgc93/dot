@@ -10,6 +10,7 @@ body {
 	border-bottom: 2px solid #858eff;
 	border-radius: 0.3rem 0.3rem 0rem 0rem;
 	background-color: #555;
+	color: #fff9;
 }
 
 header {
@@ -44,10 +45,12 @@ header button {
 	padding: 0.5rem 1rem;
 	background-color: #5556;
 	border-bottom: 2px solid transparent;
+	color: #fff9;
 }
 
 header button:hover {
 	background-color: #555;
+	color: #fff;
 }
 
 .form-box {
