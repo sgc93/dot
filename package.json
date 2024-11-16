@@ -24,6 +24,14 @@
 			{
 				"command": "my-first-extension.signUp",
 				"title": "DotCode: Sign Up"
+			},
+			{
+				"command": "my-first-extension.logout",
+				"title": "DotCode: Log Out"
+			},
+			{
+				"command": "my-first-extension.myAccount",
+				"title": "DotCode: My Account"
 			}
 		],
 		"viewsContainers": {
