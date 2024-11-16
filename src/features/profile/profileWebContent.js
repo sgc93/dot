@@ -12,13 +12,19 @@ function getProfileWebContent(action) {
 		const updatedHtml = htmlContent
 			.replace("{{accountBtnInitClass}}", "header-btn active")
 			.replace("{{profileBtnInitClass}}", "header-btn")
-			.replace("{{logoutBtnInitClass}}", "header-btn");
+			.replace("{{logoutBtnInitClass}}", "header-btn")
+			.replace("{{accountBoxInitClass}}", "content-box_data shown")
+			.replace("{{logoutBoxInitClass}}", "content-box_data hidden")
+			.replace("{{profileBoxInitClass}}", "content-box_data hidden");
 		return updatedHtml.replace("{{style}}", `<style>${cssContent}</style>`);
 	} else {
 		const updatedHtml = htmlContent
 			.replace("{{accountBtnInitClass}}", "header-btn")
 			.replace("{{profileBtnInitClass}}", "header-btn")
-			.replace("{{logoutBtnInitClass}}", "header-btn active");
+			.replace("{{logoutBtnInitClass}}", "header-btn active")
+			.replace("{{accountBoxInitClass}}", "content-box_data hidden")
+			.replace("{{logoutBoxInitClass}}", "content-box_data shown")
+			.replace("{{profileBoxInitClass}}", "content-box_data hidden");
 		return updatedHtml.replace("{{style}}", `<style>${cssContent}</style>`);
 	}
 }
