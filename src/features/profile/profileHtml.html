@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<header>
-			<a>dot</a>
+			<a id="dotCodeLink">dot</a>
 			<button id="account" class="{{accountBtnInitClass}}">Qene</button>
 			<button id="profile" class="{{profileBtnInitClass}}">My Profile</button>
 			<button id="logout" class="{{logoutBtnInitClass}}">Log out</button>
@@ -32,7 +32,7 @@
 				<div class="devider"></div>
 				<div class="leave-box">
 					<span>Do you want to open your profile in browser?</span>
-					<button id="logoutBtn">Open In DotCode</button>
+					<button id="dotCodeRedirect">Open In DotCode</button>
 				</div>
 				<div class="devider"></div>
 			</div>
@@ -40,7 +40,7 @@
 				<div class="devider"></div>
 				<div class="logOut-box">
 					<span>Do you want to log out temporarily?</span>
-					<button id="logoutBtn">Log Out</button>
+					<button id="logoutFromVsBtn">Log Out</button>
 				</div>
 				<div class="devider"></div>
 			</div>
@@ -48,10 +48,16 @@
 
 		<script>
 			document.addEventListener("DOMContentLoaded", () => {
+				const vscode = acquireVsCodeApi();
 				const buttons = document.querySelectorAll(".header-btn");
 				const accountBox = document.getElementById("accountBox");
 				const profileBox = document.getElementById("profileBox");
 				const logoutBox = document.getElementById("logoutBox");
+				const logoutBtn = document.getElementById("logoutBtn");
+				const checkBtn = document.getElementById("checkBtn");
+				const dotCodeLink = document.getElementById("dotCodeLink");
+				const dotCodeRedirect = document.getElementById("dotCodeRedirect");
+				const logoutFromVsBtn = document.getElementById("logoutFromVsBtn");
 
 				const updateClassList = (element, addedClass, removedClass) => {
 					element.classList.remove(removedClass);
@@ -79,6 +85,34 @@
 						}
 					});
 				});
+
+				dotCodeLink.addEventListener("click", (event) => {
+					event.preventDefault();
+					vscode.postMessage({
+						command: "redirect",
+						data: "http://localhost:5173",
+					});
+				});
+
+				const logout = (event) => {
+					event.preventDefault();
+					vscode.postMessage({
+						command: "logout",
+					});
+				};
+
+				logoutBtn.addEventListener("click", logout);
+				logoutFromVsBtn.addEventListener("click", logout);
+
+				const gotoDotCode = (event) => {
+					event.preventDefault();
+					vscode.postMessage({
+						command: "detailProfile",
+					});
+				};
+
+				checkBtn.addEventListener("click", gotoDotCode);
+				dotCodeRedirect.addEventListener("click", gotoDotCode);
 			});
 		</script>
 	</body>
