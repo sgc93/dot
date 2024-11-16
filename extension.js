@@ -1,3 +1,5 @@
+const dotCodeProfilePanel = require("./src/features/profile/profilePanel");
+
 const vscode = require("vscode");
 const search = require("./src/features/search/search");
 const dotCodeAuthPanel = require("./src/features/auth/authPanel");
@@ -24,6 +26,16 @@ function activate(context) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand("my-first-extension.signUp", () =>
 			dotCodeAuthPanel("Sign Up", context)
+		)
+	);
+	context.subscriptions.push(
+		vscode.commands.registerCommand("my-first-extension.logout", () =>
+			dotCodeProfilePanel("Log Out", context)
+		)
+	);
+	context.subscriptions.push(
+		vscode.commands.registerCommand("my-first-extension.myAccount", () =>
+			dotCodeProfilePanel("Account", context)
 		)
 	);
 
