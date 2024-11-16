@@ -1,27 +1,26 @@
 const fs = require("fs");
 const path = require("path");
 
-function getAuthWebContent(action) {
-	const htmlPath = path.join(__dirname, "./authHtml.html");
-	const cssPath = path.join(__dirname, "./authCss.css");
+function getProfileWebContent(action) {
+	const htmlPath = path.join(__dirname, "./profileHtml.html");
+	const cssPath = path.join(__dirname, "./profileCss.css");
 
 	const htmlContent = fs.readFileSync(htmlPath, "utf8");
 	const cssContent = fs.readFileSync(cssPath, "utf8");
-	if (action === "Sign Up") {
+
+	if (action === "Account") {
 		const updatedHtml = htmlContent
-			.replace("{{loginBtnInitClasses}}", "header-btn")
-			.replace("{{signUpBtnInitClasses}}", "header-btn active")
-			.replace("{{loginFormInitClasses}}", "hidden")
-			.replace("{{signUpFormInitClasses}}", "shown");
+			.replace("{{accountBtnInitClass}}", "header-btn active")
+			.replace("{{profileBtnInitClass}}", "header-btn")
+			.replace("{{logoutBtnInitClass}}", "header-btn");
 		return updatedHtml.replace("{{style}}", `<style>${cssContent}</style>`);
 	} else {
 		const updatedHtml = htmlContent
-			.replace("{{loginBtnInitClasses}}", "header-btn active")
-			.replace("{{signUpBtnInitClasses}}", "header-btn")
-			.replace("{{loginFormInitClasses}}", "shown")
-			.replace("{{signUpFormInitClasses}}", "hidden");
+			.replace("{{accountBtnInitClass}}", "header-btn")
+			.replace("{{profileBtnInitClass}}", "header-btn")
+			.replace("{{logoutBtnInitClass}}", "header-btn active");
 		return updatedHtml.replace("{{style}}", `<style>${cssContent}</style>`);
 	}
 }
 
-module.exports = getAuthWebContent;
+module.exports = getProfileWebContent;
