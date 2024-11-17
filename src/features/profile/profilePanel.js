@@ -3,11 +3,13 @@ const userData = require("../../utils/userData");
 const getProfileWebContent = require("./profileWebContent");
 const redirect = require("../../utils/helpers");
 
-const handleReceivedMessage = async (message) => {
+const handleReceivedMessage = async (message, context) => {
+	const user = userData.getUserData(context);
+
 	if (message.command === "logout") {
-		vscode.window.showInformationMessage("logging out ...");
+		vscode.window.showInformationMessage(`${user.name}: logging out ...`);
 	} else if (message.command === "detailProfile") {
-		vscode.env.openExternal("http://localhost:5173/profile/dfsdflsdf");
+		vscode.env.openExternal(`http://localhost:5173/profile/${user.userId}`);
 	} else if (message.command === "redirect") {
 		redirect(message.data);
 	}
@@ -26,9 +28,21 @@ const dotCodeProfilePanel = (action, context) => {
 			}
 		);
 
+		if (!panel) {
+			return;
+		}
+
 		panel.webview.html = getProfileWebContent(action);
+
+		panel.webview.postMessage({
+			command: "updateUser",
+			data: user,
+		});
+
+		console.log("is user data posted: ", isPosted);
+
 		panel.webview.onDidReceiveMessage(
-			async (message) => handleReceivedMessage(message),
+			async (message) => handleReceivedMessage(message, context),
 			undefined,
 			context.subscriptions
 		);
