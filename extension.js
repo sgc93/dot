@@ -34,6 +34,11 @@ function activate(context) {
 		)
 	);
 	context.subscriptions.push(
+		vscode.commands.registerCommand("my-first-extension.myProjects", () =>
+			dotCodeProfilePanel("Projects", context)
+		)
+	);
+	context.subscriptions.push(
 		vscode.commands.registerCommand("my-first-extension.myAccount", () =>
 			dotCodeProfilePanel("Account", context)
 		)
