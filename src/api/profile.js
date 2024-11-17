@@ -17,9 +17,8 @@ async function getMyProjects(token) {
 			return projects;
 		}
 	} catch (err) {
-		console.log(err.message);
 		vscode.window.showErrorMessage(
-			"Failed to fetch your projects from DotCode server😕"
+			"Failed to fetch your projects from DotCode server😕" + err.message
 		);
 		return null;
 	}
