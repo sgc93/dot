@@ -1,27 +1,25 @@
-const vscode = require("vscode");
-
-async function saveUserData(userData) {
-	const secretStorage = vscode.workspace.getConfiguration();
+function saveUserData(userData, context) {
 	const expiry = 14 * 24 * 60 * 60 * 1000;
-	await secretStorage.set("userData", JSON.stringify({ expiry, ...userData }));
+	context.workspaceState.update(
+		"userData",
+		JSON.stringify({ expiry, ...userData })
+	);
 }
 
-async function getUserData() {
-	const secretStorage = vscode.workspace.getConfiguration();
-	const data = await secretStorage.get("userData");
+function getUserData(context) {
+	const data = context.workspaceState.get("userData");
 	const parsedData = JSON.parse(data);
 
 	if (parsedData && parsedData.expiry > Date.now()) {
 		return parsedData;
 	} else {
-		await secretStorage.delete("userData");
+		context.workspaceState.update("userData", undefined);
 		return null;
 	}
 }
 
-async function deleteUserData() {
-	const secretStorage = vscode.workspace.getConfiguration();
-	await secretStorage.delete("userData");
+function deleteUserData(context) {
+	context.workspaceState.update("userData", undefined);
 }
 
 module.exports = { saveUserData, getUserData, deleteUserData };
