@@ -30,7 +30,7 @@ const handleLogin = async (data, context) => {
 		vscode.window.showInformationMessage(
 			`Welcome ${user.name}, You Have Logged In Successfully 👍🏻`
 		);
-		return;
+		return true;
 	} catch (error) {
 		const message = error.response
 			? error.response.data
@@ -39,7 +39,7 @@ const handleLogin = async (data, context) => {
 			: error.message;
 
 		vscode.window.showErrorMessage(`${message}`);
-		return;
+		return false;
 	}
 };
 
