@@ -2,6 +2,7 @@ const vscode = require("vscode");
 const userData = require("../../utils/userData");
 const getProfileWebContent = require("./profileWebContent");
 const redirect = require("../../utils/helpers");
+const getMyProjects = require("../../api/profile");
 
 const handleReceivedMessage = async (message, context) => {
 	const user = userData.getUserData(context);
@@ -15,7 +16,7 @@ const handleReceivedMessage = async (message, context) => {
 	}
 };
 
-const dotCodeProfilePanel = (action, context) => {
+const dotCodeProfilePanel = async (action, context) => {
 	const user = userData.getUserData(context);
 
 	if (user && user.token) {
@@ -34,68 +35,19 @@ const dotCodeProfilePanel = (action, context) => {
 
 		panel.webview.html = getProfileWebContent(action);
 
-		panel.webview.postMessage({
-			command: "updateUser",
-			user,
-			projects: [
-				{
-					name: "user profile for dotcode vscode extension user",
-					description:
-						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
-					_id: "dfsdsdf",
-					type: "snippet",
-					lngName: "react",
-				},
-				{
-					name: "user profile for dotcode vscode extension user",
-					description:
-						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
-					_id: "dfsdsdf",
-					type: "ui",
-					lngName: "html",
-				},
-				{
-					name: "user profile for dotcode vscode extension user",
-					description:
-						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
-					_id: "dfsdsdf",
-					type: "snippet",
-					lngName: "react",
-				},
-				{
-					name: "user profile for dotcode vscode extension user",
-					description:
-						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
-					_id: "dfsdsdf",
-					type: "snippet",
-					lngName: "kotlin",
-				},
-				{
-					name: "user profile for dotcode vscode extension user",
-					description:
-						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
-					_id: "dfsdsdf",
-					type: "ui",
-					lngName: "html",
-				},
-				{
-					name: "user profile for dotcode vscode extension user",
-					description:
-						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
-					_id: "dfsdsdf",
-					type: "snippet",
-					lngName: "kotlin",
-				},
-				{
-					name: "user profile for dotcode vscode extension user",
-					description:
-						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
-					_id: "dfsdsdf",
-					type: "snippet",
-					lngName: "react",
-				},
-			],
-		});
+		const projects = await getMyProjects(user.token);
+		if (projects) {
+			panel.webview.postMessage({
+				command: "updateUser",
+				user,
+				projects,
+			});
+		} else {
+			panel.webview.postMessage({
+				command: "projectLoadError",
+				message: "Unable to fetch your projects, reopen this panel again!",
+			});
+		}
 
 		panel.webview.onDidReceiveMessage(
 			async (message) => handleReceivedMessage(message, context),
