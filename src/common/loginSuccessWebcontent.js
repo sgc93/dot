@@ -134,10 +134,10 @@ const htmlContent = `
 				const profileBtn2 = document.getElementById("profileBtnTwo");
 				const dotCodeLink = document.getElementById("dotCodeLink");
 
-				document.addEventListener("message", (event) => {
+				window.addEventListener("message", (event) => {
 					const user = event.data;
-					profileBtn1.innerHTML = user.name;
-					profileBtn2.innerHTML = user.name;
+					profileBtn1.textContent = user.name;
+					profileBtn2.textContent = user.name;
 				});
 
 				const openProfile = (event) => {
