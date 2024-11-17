@@ -1,16 +1,18 @@
 const resultAction = require("../search/searchResults");
-
 const vscode = require("vscode");
 const userData = require("../../utils/userData");
 const getProfileWebContent = require("./profileWebContent");
 const redirect = require("../../utils/helpers");
 const getMyProjects = require("../../api/profile");
+const handleLogout = require("../../api/logout");
 
 const handleReceivedMessage = async (message, context, panel) => {
 	const user = userData.getUserData(context);
 
 	if (message.command === "logout") {
 		vscode.window.showInformationMessage(`${user.name}: logging out ...`);
+		await handleLogout(user, context);
+		panel.dispose();
 	} else if (message.command === "detailProfile") {
 		vscode.env.openExternal(`http://localhost:5173/profile/${user.userId}`);
 	} else if (message.command === "redirect") {
@@ -61,7 +63,7 @@ const dotCodeProfilePanel = async (action, context) => {
 		}
 
 		panel.webview.onDidReceiveMessage(
-			async (message) => handleReceivedMessage(message, context),
+			async (message) => handleReceivedMessage(message, context, panel),
 			undefined,
 			context.subscriptions
 		);
