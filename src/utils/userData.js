@@ -1,13 +1,19 @@
 function saveUserData(userData, context) {
-	const expiry = 14 * 24 * 60 * 60 * 1000;
+	const expiry = Date.now() + 14 * 24 * 60 * 60 * 1000;
+	const loggedInAt = Date.now();
+
 	context.workspaceState.update(
 		"userData",
-		JSON.stringify({ expiry, ...userData })
+		JSON.stringify({ expiry, loggedInAt, ...userData })
 	);
 }
 
 function getUserData(context) {
 	const data = context.workspaceState.get("userData");
+	if (!data) {
+		return null;
+	}
+
 	const parsedData = JSON.parse(data);
 
 	if (parsedData && parsedData.expiry > Date.now()) {
