@@ -61,6 +61,8 @@
 			document.addEventListener("DOMContentLoaded", () => {
 				const vscode = acquireVsCodeApi();
 
+				const saveState = (user, projects) => vscode.setState({user, projects})
+
 				const buttons = document.querySelectorAll(".header-btn");
 
 				const accountBox = document.getElementById("accountBox");
@@ -121,11 +123,8 @@
 					});
 				}
 
-				window.addEventListener("message", (event) => {
-					if (event.data.command === "updateUser") {
-						const user = event.data.user;
-						const projects = event.data.projects;
-						if (user) {
+				const updateUserInterface = (user, projects) => {
+					if (user) {
 							document.getElementById("accountBtn").textContent = user.name;
 							document.getElementById("username").textContent = user.name;
 							document.getElementById("email").textContent = user.email;
@@ -175,7 +174,7 @@
 												} </span>
 											</div>
 											<div class="project-box_footer-btns">
-												<button>Open in new file</button>
+												<button class="openProjectBtn${index}">Open in new file</button>
 												<button>copy code</button>
 											</div>
 										</div>
@@ -184,9 +183,35 @@
 								);
 
 								const projectName = projectListBox.querySelector(`.projectName${index}`);
-								projectName.addEventListener("click", () => redirect(`http://localhost:5173/community/project/${project._id}`));
+								projectName.addEventListener("click", (event) => {
+									event.preventDefault();
+									redirect(`http://localhost:5173/community/project/${project._id}`);
+								});
+
+								const openProjectBtn = document.querySelector(`.openProjectBtn${index}`);
+								openProjectBtn.addEventListener("click", (event) => {
+									event.preventDefault()
+									vscode.postMessage({
+										command: "openProject",
+										data: project
+									});
+								});
 							});
 						}
+				}
+
+				const savedState = vscode.getState();
+				if(savedState){
+					const { user, projects} = savedState;
+					updateUserInterface(user, projects)
+				}
+
+				window.addEventListener("message", (event) => {
+					if (event.data.command === "updateUser") {
+						const user = event.data.user;
+						const projects = event.data.projects;
+						updateUserInterface(user, projects)
+						saveState(user, projects)
 					} else if(event.data.command === 'projectLoadError') {
 						projectListBox.insertAdjacentElement("beforeend", `<div class="project-box">${event.data.message} yet</div>`);
 					}
