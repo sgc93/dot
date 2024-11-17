@@ -10,11 +10,11 @@ const handleReceivedMessage = async (message, context, panel) => {
 	if (message.command === "login") {
 		const isLoggedIn = await handleLogin(data, context);
 		if (isLoggedIn) {
-			console.log("You have logged in successfully");
 			const user = userData.getUserData(context);
 			if (user) {
 				panel.title = `DotCode - ${user.name}`;
 				panel.webview.html = getLoginSuccessWebContent();
+				panel.webview.postMessage(user);
 			}
 		}
 	} else if (message.command === "signUp") {
@@ -25,7 +25,7 @@ const handleReceivedMessage = async (message, context, panel) => {
 		redirect(message.data);
 	} else if (message.command === "openProfile") {
 		panel.dispose();
-		vscode.commands.executeCommand("my-first-extension.account");
+		vscode.commands.executeCommand("my-first-extension.myAccount");
 	}
 };
 
