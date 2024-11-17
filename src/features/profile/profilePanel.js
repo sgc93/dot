@@ -1,5 +1,6 @@
-const getProfileWebContent = require("./profileWebContent");
 const vscode = require("vscode");
+const userData = require("../../utils/userData");
+const getProfileWebContent = require("./profileWebContent");
 const redirect = require("../../utils/helpers");
 
 const handleReceivedMessage = async (message) => {
@@ -13,21 +14,37 @@ const handleReceivedMessage = async (message) => {
 };
 
 const dotCodeProfilePanel = (action, context) => {
-	const panel = vscode.window.createWebviewPanel(
-		"profile",
-		`DotCode - ${action}`,
-		vscode.ViewColumn.one,
-		{
-			enableScripts: true,
-		}
-	);
+	const user = userData.getUserData(context);
 
-	panel.webview.html = getProfileWebContent(action);
-	panel.webview.onDidReceiveMessage(
-		async (message) => handleReceivedMessage(message),
-		undefined,
-		context.subscriptions
-	);
+	if (user && user.token) {
+		const panel = vscode.window.createWebviewPanel(
+			"profile",
+			`DotCode - ${action === "Account" ? user.name : action}`,
+			vscode.ViewColumn.one,
+			{
+				enableScripts: true,
+			}
+		);
+
+		panel.webview.html = getProfileWebContent(action);
+		panel.webview.onDidReceiveMessage(
+			async (message) => handleReceivedMessage(message),
+			undefined,
+			context.subscriptions
+		);
+	} else {
+		vscode.window
+			.showInformationMessage(
+				"No logged in account detected, please LOGIN first.",
+				"Login"
+			)
+			.then((selection) => {
+				if (selection === "Login") {
+					vscode.commands.executeCommand("my-first-extension.login");
+				}
+			});
+		vscode.commands.executeCommand("my-first-extension.login");
+	}
 };
 
 module.exports = dotCodeProfilePanel;
