@@ -76,6 +76,7 @@ const htmlContent = `
 				color: #858ef2;
 				font-weight: bold;
 				font-size: 1.6rem;
+				text-transform: capitalize;
 			}
 
 			.success-box button:hover {
@@ -117,7 +118,7 @@ const htmlContent = `
 		<div class="success-box">
 			<div class="name-box">
 				<span> Welcome, </span>
-				<button id="pforileBtnTwo">User</button>!
+				<button id="profileBtnTwo">User</button>!
 			</div>
 			<span class="success-message">
 				You have logged in successfully, have a nice snippeting time 👍🏻
