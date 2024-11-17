@@ -5,9 +5,7 @@ const vscode = require("vscode");
 
 const handleLogin = async (data, context) => {
 	try {
-		vscode.window.showInformationMessage(
-			`Loading .... \n Login with:- email: ${data.email}, password: ${data.password}`
-		);
+		vscode.window.showInformationMessage(`Logging in ....${data.email}`);
 		const response = await axios.post(
 			`http://127.0.0.1:9000/api/v1/users/login`,
 			data,
