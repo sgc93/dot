@@ -1,10 +1,12 @@
+const resultAction = require("../search/searchResults");
+
 const vscode = require("vscode");
 const userData = require("../../utils/userData");
 const getProfileWebContent = require("./profileWebContent");
 const redirect = require("../../utils/helpers");
 const getMyProjects = require("../../api/profile");
 
-const handleReceivedMessage = async (message, context) => {
+const handleReceivedMessage = async (message, context, panel) => {
 	const user = userData.getUserData(context);
 
 	if (message.command === "logout") {
@@ -13,6 +15,15 @@ const handleReceivedMessage = async (message, context) => {
 		vscode.env.openExternal(`http://localhost:5173/profile/${user.userId}`);
 	} else if (message.command === "redirect") {
 		redirect(message.data);
+	} else if (message.command === "openProject") {
+		const project = message.data;
+		await resultAction.openProjectContent({
+			...project,
+			lngName:
+				project.lngName === "js" || project.lngName === "react"
+					? "javascript"
+					: project.lngName,
+		});
 	}
 };
 
