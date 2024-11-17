@@ -1,3 +1,4 @@
+const handleSignUP = require("../../api/signUp");
 const vscode = require("vscode");
 const getAuthWebContent = require("./authWebContent");
 const handleLogin = require("../../api/login");
@@ -18,9 +19,15 @@ const handleReceivedMessage = async (message, context, panel) => {
 			}
 		}
 	} else if (message.command === "signUp") {
-		vscode.window.showInformationMessage(
-			`Sign Up data:- name: ${data.name}, email: ${data.email}, password: ${data.password}, confirmPassword: ${data.confirmPassword}`
-		);
+		const isSignedUp = await handleSignUP(data, context);
+		if (isSignedUp) {
+			const user = userData.getUserData(context);
+			if (user) {
+				panel.title = `DotCode - ${user.name}`;
+				panel.webview.html = getLoginSuccessWebContent();
+				panel.webview.postMessage(user);
+			}
+		}
 	} else if (message.command === "redirect") {
 		redirect(message.data);
 	} else if (message.command === "openProfile") {
