@@ -13,18 +13,33 @@ function getProfileWebContent(action) {
 			.replace("{{accountBtnInitClass}}", "header-btn active")
 			.replace("{{profileBtnInitClass}}", "header-btn")
 			.replace("{{logoutBtnInitClass}}", "header-btn")
+			.replace("{{projectBtnInitClass}}", "header-btn")
 			.replace("{{accountBoxInitClass}}", "content-box_data shown")
 			.replace("{{logoutBoxInitClass}}", "content-box_data hidden")
-			.replace("{{profileBoxInitClass}}", "content-box_data hidden");
+			.replace("{{profileBoxInitClass}}", "content-box_data hidden")
+			.replace("{{projectBoxInitClass}}", "project-content_box hidden");
 		return updatedHtml.replace("{{style}}", `<style>${cssContent}</style>`);
-	} else {
+	} else if (action === "Projects") {
 		const updatedHtml = htmlContent
 			.replace("{{accountBtnInitClass}}", "header-btn")
 			.replace("{{profileBtnInitClass}}", "header-btn")
+			.replace("{{logoutBtnInitClass}}", "header-btn")
+			.replace("{{projectBtnInitClass}}", "header-btn active")
+			.replace("{{accountBoxInitClass}}", "content-box_data hidden")
+			.replace("{{logoutBoxInitClass}}", "content-box_data hidden")
+			.replace("{{profileBoxInitClass}}", "content-box_data hidden")
+			.replace("{{projectBoxInitClass}}", "project-content_box shown");
+		return updatedHtml.replace("{{style}}", `<style>${cssContent}</style>`);
+	} else if (action === "Log Out") {
+		const updatedHtml = htmlContent
+			.replace("{{accountBtnInitClass}}", "header-btn")
+			.replace("{{profileBtnInitClass}}", "header-btn")
+			.replace("{{projectBtnInitClass}}", "header-btn")
 			.replace("{{logoutBtnInitClass}}", "header-btn active")
 			.replace("{{accountBoxInitClass}}", "content-box_data hidden")
 			.replace("{{logoutBoxInitClass}}", "content-box_data shown")
-			.replace("{{profileBoxInitClass}}", "content-box_data hidden");
+			.replace("{{profileBoxInitClass}}", "content-box_data hidden")
+			.replace("{{projectBoxInitClass}}", "project-content_box hidden");
 		return updatedHtml.replace("{{style}}", `<style>${cssContent}</style>`);
 	}
 }
