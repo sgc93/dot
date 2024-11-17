@@ -39,8 +39,6 @@ const dotCodeProfilePanel = (action, context) => {
 			data: user,
 		});
 
-		console.log("is user data posted: ", isPosted);
-
 		panel.webview.onDidReceiveMessage(
 			async (message) => handleReceivedMessage(message, context),
 			undefined,
