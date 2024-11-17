@@ -14,9 +14,8 @@ async function searchProjects(query) {
 			return { results: projectItems.length, projectItems };
 		}
 	} catch (err) {
-		console.log("DotCode Fetch Error: ", err.message);
 		vscode.window.showErrorMessage(
-			"Failed to search projects from DotCode server😕"
+			"Failed to search projects from DotCode server😕 " + err.message
 		);
 		return null;
 	}

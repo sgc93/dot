@@ -30,13 +30,7 @@ const handleLogin = async (data, context) => {
 		);
 		return true;
 	} catch (error) {
-		const message = error.response
-			? error.response.data
-				? error.response.data.message
-				: error.message
-			: error.message;
-
-		vscode.window.showErrorMessage(`${message}`);
+		vscode.window.showErrorMessage(`Unable to login, ${error.message}`);
 		return false;
 	}
 };
