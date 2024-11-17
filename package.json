@@ -30,6 +30,10 @@
 				"title": "DotCode: Log Out"
 			},
 			{
+				"command": "my-first-extension.myProjects",
+				"title": "DotCode: My Projects"
+			},
+			{
 				"command": "my-first-extension.myAccount",
 				"title": "DotCode: My Account"
 			}
