@@ -175,10 +175,17 @@ button {
 	background-color: #555;
 }
 
+.logout-devider {
+	background: linear-gradient(to right, #ff776f, transparent);
+	height: 1px;
+	flex-grow: 1;
+	margin: 0.7rem 0rem;
+}
+
 .devider {
 	height: 1px;
 	flex-grow: 1;
-	background-color: #fff4;
+	background: linear-gradient(to right, #fff4, transparent);
 	margin: 0.7rem 0rem;
 }
 
