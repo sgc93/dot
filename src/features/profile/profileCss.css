@@ -64,6 +64,7 @@ header button:hover {
 }
 
 .content-box_data {
+	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
 	width: 17rem;
@@ -187,6 +188,129 @@ button {
 	flex-grow: 1;
 	background: linear-gradient(to right, #fff4, transparent);
 	margin: 0.7rem 0rem;
+}
+
+.project-content_box {
+	display: flex;
+	flex-direction: column;
+	width: 33rem;
+	gap: 1rem;
+}
+
+.project-list-box {
+	display: flex;
+	flex-direction: column;
+}
+.project-list_title-box {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+}
+.project-list_title {
+	font-size: 1rem;
+	color: #d4d1d1;
+}
+
+.project-list_title-divider {
+	height: 1px;
+	flex-grow: 1;
+	background: linear-gradient(to left, #fff4, transparent);
+	margin: 0.7rem 0rem;
+}
+
+.project-list {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 1rem 1rem 1rem 0rem;
+	width: 34rem;
+	max-height: 70dvh;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+.project-list::-webkit-scrollbar {
+	background-color: transparent;
+	width: 10px;
+}
+.project-list::-webkit-scrollbar-thumb {
+	background-color: #555555a0;
+	width: 10px;
+}
+.project-list::-webkit-scrollbar-thumb:hover {
+	background-color: #555;
+}
+
+.project-box {
+	color: #fff9;
+	display: flex;
+	flex-direction: column;
+	gap: 0.8rem;
+
+	background-color: #fff1;
+	padding: 0.7rem;
+	border-radius: 0.5rem;
+	border: 1px solid #fff1;
+
+	transition: all 0.3s;
+}
+
+.project-box:hover {
+	border-color: #858dffa4;
+}
+
+.project-box_header {
+	display: flex;
+	align-items: start;
+	justify-content: space-between;
+	gap: 1rem;
+}
+.project-box_header span:first-child {
+	display: flex;
+	align-items: start;
+	gap: 0.2rem;
+}
+.project-box_header #projectName {
+	color: #fff;
+	cursor: pointer;
+	transition: all 0.4s;
+}
+.project-box_header #projectName:hover {
+	color: #858eff;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.project-box_footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.project-box_footer-btns {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.3rem;
+}
+.project-box_footer-btns:first-child {
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
+.project-box_footer button {
+	background-color: #555;
+	color: #fff9;
+	font-weight: normal;
+	padding: 0.3rem 0.5rem;
+	border-radius: 0.3rem;
+	font-size: 0.8rem;
+
+	transition: all 0.3s;
+}
+.project-box_footer button:hover {
+	background-color: #858dff94;
+	color: #fff;
 }
 
 .hidden {
