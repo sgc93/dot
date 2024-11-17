@@ -135,9 +135,12 @@
 						}
 
 						if (projects.length === 0) {
-							projectListBox.insertAdjacentElement(
+							projectListBox.insertAdjacentHTML(
 								"beforeend",
-								'<div class="project-box">You have projects yet</div>'
+								`<span style="color: yellow; font-weight: bold; width: 100%; text-align: center; font-size: 1.1rem;">
+									You have NO projects yet!
+								</span>
+								`
 							);
 						} else {
 							projectListTitle.textContent = `You have ${projects.length} projects`;
@@ -214,7 +217,7 @@
 						updateUserInterface(user, projects)
 						saveState(user, projects)
 					} else if(event.data.command === 'projectLoadError') {
-						projectListBox.insertAdjacentElement("beforeend", `<div class="project-box">${event.data.message} yet</div>`);
+						projectListBox.insertAdjacentHTML("beforeend", `<span style="color: red; font-weight: bold; width: 100%; text-align: center; font-size: 1.1rem;">${event.data.message}</span>`);
 					}
 				});
 
