@@ -36,7 +36,65 @@ const dotCodeProfilePanel = (action, context) => {
 
 		panel.webview.postMessage({
 			command: "updateUser",
-			data: user,
+			user,
+			projects: [
+				{
+					name: "user profile for dotcode vscode extension user",
+					description:
+						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
+					_id: "dfsdsdf",
+					type: "snippet",
+					lngName: "react",
+				},
+				{
+					name: "user profile for dotcode vscode extension user",
+					description:
+						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
+					_id: "dfsdsdf",
+					type: "ui",
+					lngName: "html",
+				},
+				{
+					name: "user profile for dotcode vscode extension user",
+					description:
+						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
+					_id: "dfsdsdf",
+					type: "snippet",
+					lngName: "react",
+				},
+				{
+					name: "user profile for dotcode vscode extension user",
+					description:
+						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
+					_id: "dfsdsdf",
+					type: "snippet",
+					lngName: "kotlin",
+				},
+				{
+					name: "user profile for dotcode vscode extension user",
+					description:
+						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
+					_id: "dfsdsdf",
+					type: "ui",
+					lngName: "html",
+				},
+				{
+					name: "user profile for dotcode vscode extension user",
+					description:
+						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
+					_id: "dfsdsdf",
+					type: "snippet",
+					lngName: "kotlin",
+				},
+				{
+					name: "user profile for dotcode vscode extension user",
+					description:
+						"a user profile for logged in user in the vscode extension a user profile for logged in user in the vscode extension",
+					_id: "dfsdsdf",
+					type: "snippet",
+					lngName: "react",
+				},
+			],
 		});
 
 		panel.webview.onDidReceiveMessage(
