@@ -2,12 +2,11 @@ const vscode = require("vscode");
 const getAuthWebContent = require("./authWebContent");
 const handleLogin = require("../../api/login");
 const redirect = require("../../utils/helpers");
-const userData = require("../../utils/userData");
 
-const handleReceivedMessage = async (message) => {
+const handleReceivedMessage = async (message, context) => {
 	const data = message.data;
 	if (message.command === "login") {
-		await handleLogin(data);
+		await handleLogin(data, context);
 	} else if (message.command === "signUp") {
 		vscode.window.showInformationMessage(
 			`Sign Up data:- name: ${data.name}, email: ${data.email}, password: ${data.password}, confirmPassword: ${data.confirmPassword}`
@@ -29,7 +28,7 @@ const dotCodeAuthPanel = (action, context) => {
 
 	panel.webview.html = getAuthWebContent(action);
 	panel.webview.onDidReceiveMessage(
-		async (message) => await handleReceivedMessage(message),
+		async (message) => await handleReceivedMessage(message, context),
 		undefined,
 		context.subscriptions
 	);
