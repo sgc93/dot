@@ -269,12 +269,12 @@ button {
 	align-items: start;
 	gap: 0.2rem;
 }
-.project-box_header #projectName {
+.project-box_header .projectName {
 	color: #fff;
 	cursor: pointer;
 	transition: all 0.4s;
 }
-.project-box_header #projectName:hover {
+.project-box_header .projectName:hover {
 	color: #858eff;
 	text-decoration: underline;
 	text-underline-offset: 3px;
