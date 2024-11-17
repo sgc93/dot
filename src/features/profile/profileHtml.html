@@ -35,38 +35,6 @@
 						<div class="project-list_title-divider"></div>
 					</div>
 					<div class="project-list" id="projectListBox">
-						<div class="project-box">
-							<div class="project-box_header">
-								<span>
-									<span id="projectName"
-										>user profile for dotcode vscode extension user</span
-									>
-									&#10532;</span
-								>
-							</div>
-							<span>
-								a user profile for logged in user in the vscode extension a user
-								profile for logged in user in the vscode extension</span
-							>
-							<div class="project-box_footer">
-								<div class="project-box_footer-btns">
-									<span>UI</span>
-									<div
-										style="
-											width: 0.5rem;
-											height: 0.5rem;
-											border-radius: 50%;
-											background-color: #aaff85;
-										"
-									></div>
-									<span>Html-Css-Js</span>
-								</div>
-								<div class="project-box_footer-btns">
-									<button>Open in new file</button>
-									<button>copy code</button>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 				<button id="createProjectBtn" class="check-btn">Create Project</button>
@@ -105,7 +73,7 @@
 
 				const logoutBtn = document.getElementById("logoutBtn");
 				const logoutFromVsBtn = document.getElementById("logoutFromVsBtn");
-				const headerLogoutBtn = document.getElementById("headerLogoutBtn");
+				const createProjectBtn = document.getElementById("createProjectBtn");
 
 				const projectListBox = document.getElementById("projectListBox");
 				const projectListTitle = document.getElementById("projectListTitle");
@@ -146,6 +114,13 @@
 					return `Logged in ${dayDiff}`;
 				};
 
+				const redirect = (link) => {
+					vscode.postMessage({
+						command: "redirect",
+						data: link,
+					});
+				}
+
 				window.addEventListener("message", (event) => {
 					if (event.data.command === "updateUser") {
 						const user = event.data.user;
@@ -167,14 +142,14 @@
 							);
 						} else {
 							projectListTitle.textContent = `You have ${projects.length} projects`;
-							projects.forEach((project) => {
+							projects.forEach((project,  index) => {
 								projectListBox.insertAdjacentHTML(
 									"beforeend",
 									`
 									<div class="project-box">
 										<div class="project-box_header">
 											<span>
-												<span id="projectName">${project.name}</span
+												<span class="projectName projectName${index}">${project.name}</span
 												>
 												&#10532;</span
 											>
@@ -207,8 +182,13 @@
 									</div>
 									`
 								);
+
+								const projectName = projectListBox.querySelector(`.projectName${index}`);
+								projectName.addEventListener("click", () => redirect(`http://localhost:5173/community/project/${project._id}`));
 							});
 						}
+					} else if(event.data.command === 'projectLoadError') {
+						projectListBox.insertAdjacentElement("beforeend", `<div class="project-box">${event.data.message} yet</div>`);
 					}
 				});
 
@@ -250,11 +230,10 @@
 
 				dotCodeLink.addEventListener("click", (event) => {
 					event.preventDefault();
-					vscode.postMessage({
-						command: "redirect",
-						data: "http://localhost:5173",
-					});
+					redirect("http://localhost:5173")
 				});
+
+				createProjectBtn.addEventListener('click', () => redirect("http://localhost:5173/editor/dotcode"))
 
 				const logout = (event) => {
 					event.preventDefault();
