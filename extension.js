@@ -23,24 +23,25 @@ function activate(context) {
 			}
 
 			const selection = event.selections[0];
-			let notification;
-			if (!selection) {
-				if (notification) {
-					notification.dispose();
+
+			if (selection) {
+				const content = event.textEditor.document.getText(
+					event.selections[event.selections.length - 1]
+				);
+				if (content) {
+					selectionTimer = setTimeout(() => {
+						vscode.window
+							.showInformationMessage(
+								"You have selected code snippets",
+								"Save Snippet"
+							)
+							.then((selection) => {
+								if (selection === "Save Snippet") {
+									uploadPanel(event, context);
+								}
+							});
+					}, 700);
 				}
-			} else {
-				selectionTimer = setTimeout(() => {
-					notification = vscode.window
-						.showInformationMessage(
-							"You have selected code snippets",
-							"Save Snippet"
-						)
-						.then((selection) => {
-							if (selection === "Save Snippet") {
-								uploadPanel(event);
-							}
-						});
-				}, 700);
 			}
 		})
 	);
