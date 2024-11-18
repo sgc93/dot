@@ -54,9 +54,6 @@ async function search() {
 					} else if (selectedAction.action === "redirect") {
 						handleResults.openInDotCode(selectedProject);
 					}
-					// handle inserting selected project code content at the current position of cursor
-					// handle creating new file and show content of selected project
-					// opening the selected project in the dotcode website
 				}
 			}
 		} else {
