@@ -1,4 +1,5 @@
-function getWebviewContent(code, languageId) {
+function getWebviewContent(code, languageId, isCreated, data) {
+	const initialCode = isCreated ? data.code.code : code;
 	return `
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +49,7 @@ function getWebviewContent(code, languageId) {
 			header button {
 				border-radius: 0.2rem;
 				padding: 0.5rem 1rem;
-				background-color: #5556;
+				background-color: ${isCreated ? "#028702a3" : "#5556"};
 				border-bottom: 2px solid transparent;
 				color: #efebeb;
 				padding: 10px;
@@ -238,7 +239,11 @@ function getWebviewContent(code, languageId) {
 	<body>
 		<header>
 			<a id="dotCodeLink">dot</a>
-			<button>Creating Code Snippet</button>
+			<button>${
+				isCreated
+					? `${data.name} is created successfully!`
+					: "Creating Code Snippet"
+			}</button>
 		</header>
 		<div class="about-box">
 			<div class="code-box_header">
@@ -246,7 +251,9 @@ function getWebviewContent(code, languageId) {
 				<button id="hideCodeBtn">hide code</button>
 			</div>
 			<div id="codeBox" class="code-box">
-				<pre>${code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</pre>
+				<pre contenteditable="true"  id="codeField">${initialCode
+					.replace(/</g, "&lt;")
+					.replace(/>/g, "&gt;")}</pre>
 			</div>
 			<div class="data-box">
 				<div class="data-box_header">
@@ -256,19 +263,26 @@ function getWebviewContent(code, languageId) {
 				</div>
 				<div class="form">
 					<div>
-						<input type="text" id="projectName" placeholder="Project name" />
-						<input type="text" id="projectDesc" placeholder=" Description" />
+						<input type="text" id="projectName" placeholder="Project name" value="${
+							isCreated ? data.name : ""
+						}"/>
+						<input type="text" id="projectDesc" placeholder=" Description"  value="${
+							isCreated ? data.description : ""
+						}"/>
 					</div>
 					<div>
 						<input
 							type="text"
 							id="projectTags"
 							placeholder="Tags (space them)"
+							value="${isCreated ? (data.tags ? data.tags.join(" ") : "") : ""}"
 						/>
 						<input
 							type="text"
 							id="projectVisibility"
-							placeholder="Visibility (public / private)"
+							placeholder="Visibility (public / private)"  value="${
+								isCreated ? data.visibility : ""
+							}"
 						/>
 					</div>
 					<button id="createBtn">Create Project</button>
@@ -279,6 +293,7 @@ function getWebviewContent(code, languageId) {
 		<script>
 			document.addEventListener("DOMContentLoaded", () => {
 				const vscode = acquireVsCodeApi();
+				const codeField = document.getElementById("codeField");
 				const fields = Array.from(document.getElementsByTagName("input"));
 				const dotCodeLink = document.getElementById("dotCodeLink");
 
@@ -313,6 +328,16 @@ function getWebviewContent(code, languageId) {
 
 				const isEmpty = (value) => {
 					return value.length === 0;
+				};
+
+				const validateCode = (code) => {
+					if (isEmpty(code)) {
+						errorBox.classList.remove("not-seen");
+						errorBox.innerHTML = "Project should have code content";
+						return false;
+					} else {
+						return true;
+					}
 				};
 
 				const isValidProjectName = (name) => {
@@ -387,19 +412,22 @@ function getWebviewContent(code, languageId) {
 					const description = descField.value;
 					const tags = tagsField.value;
 					const visibility = visibilityFiled.value;
-					if (validateProjectName(name)) {
-						if (validateProjectVisibility(visibility)) {
-							const data = {
-								name,
-								description,
-								tags: parseTags(tags),
-								visibility: visibility,
-							};
-							console.log(data);
-							vscode.postMessage({
-								command: "signUp",
-								data: data,
-							});
+					const code = codeField.textContent;
+					if (validateCode(code)) {
+						if (validateProjectName(name)) {
+							if (validateProjectVisibility(visibility)) {
+								const data = {
+									name,
+									description,
+									tags: parseTags(tags),
+									visibility: visibility,
+									code: { code },
+								};
+								vscode.postMessage({
+									command: "createProject",
+									data: data,
+								});
+							}
 						}
 					}
 				});
