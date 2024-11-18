@@ -1,15 +1,59 @@
 const vscode = require("vscode");
 const getWebviewContent = require("./uploadWebContent");
+const userData = require("../../utils/userData");
+const createProject = require("../../api/upload");
 
-const uploadPanel = (event) => {
+const renameLng = (lngName) => {
+	if (lngName.toLocaleLowerCase() === "javascript") {
+		return "js";
+	} else if (lngName.toLocaleLowerCase() === "javascriptreact") {
+		return "react";
+	}
+};
+
+const handleReceivedMessage = (message, context, panel, code, lngId) => {
+	if (message.command === "redirect") {
+		vscode.env.openExternal(message.data);
+	} else if (message.command === "createProject") {
+		const user = userData.getUserData(context);
+		if (user && user.token) {
+			let data = message.data;
+			data = {
+				...message.data,
+				owner: user.userId,
+				type: "snippet",
+				lngName: renameLng(lngId),
+			};
+			const isCreated = createProject(data, user.token);
+			if (isCreated) {
+				const user = userData.getUserData(context);
+				if (user) {
+					panel.title = `DotCode - ${message.data.name}`;
+					panel.webview.html = getWebviewContent(
+						code,
+						lngId,
+						true,
+						message.data
+					);
+					panel.webview.postMessage(user);
+				}
+			}
+		} else {
+			vscode.window.showErrorMessage(
+				"No logged in account detected, please login first!"
+			);
+			vscode.commands.executeCommand("my-first-extension.login");
+		}
+	}
+};
+
+const uploadPanel = (event, context) => {
 	const selection = event.selections[event.selections.length - 1];
-	// Validate event and textEditor
 	if (!event || !event.textEditor) {
 		vscode.window.showErrorMessage("No active editor found.");
 		return;
 	}
 
-	// Validate selection
 	if (!selection) {
 		vscode.window.showErrorMessage("No selection made.");
 		return;
@@ -17,35 +61,31 @@ const uploadPanel = (event) => {
 
 	const selectedCode = event.textEditor.document.getText(selection);
 	const languageId = event.textEditor.document.languageId;
+	console.log("current lnguage mode: ", languageId);
 
-	// Validate selected code
 	if (!selectedCode) {
 		vscode.window.showErrorMessage("No code selected.");
 		return;
 	}
 
-	// Create the webview panel
 	const panel = vscode.window.createWebviewPanel(
 		"codeSnippetView",
-		"Code Snippet",
+		"DotCode - Snippet",
 		vscode.ViewColumn.One,
 		{
 			enableScripts: true,
 		}
 	);
 
-	panel.webview.html = getWebviewContent(selectedCode, languageId);
+	panel.webview.html = getWebviewContent(
+		selectedCode,
+		languageId === "javascriptreact" ? "React_Jsx" : languageId,
+		false
+	);
 
-	// Handle messages from the webview
-	panel.webview.onDidReceiveMessage((message) => {
-		switch (message.command) {
-			case "saveSnippet":
-				vscode.window.showInformationMessage(
-					"Snippet Saved: " + message.content
-				);
-				break;
-		}
-	});
+	panel.webview.onDidReceiveMessage((message) =>
+		handleReceivedMessage(message, context, panel, selectedCode, languageId)
+	);
 };
 
 module.exports = uploadPanel;
