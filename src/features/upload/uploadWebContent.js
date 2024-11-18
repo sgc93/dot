@@ -112,7 +112,6 @@ function getWebviewContent(code, languageId) {
 
 				max-height: 50dvh;
 				font-size: large;
-				overflow-x: hidden;
 				overflow-y: scroll;
 				padding: 0.5rem;
 			}
