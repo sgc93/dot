@@ -11,8 +11,11 @@ const handleReceivedMessage = async (message, context, panel) => {
 
 	if (message.command === "logout") {
 		vscode.window.showInformationMessage(`${user.name}: logging out ...`);
-		await handleLogout(user, context);
-		panel.dispose();
+		const isLoggedOut = await handleLogout(user, context);
+		if (isLoggedOut) {
+			panel.dispose();
+			vscode.commands.executeCommand("my-first-extension.refreshSideBar");
+		}
 	} else if (message.command === "detailProfile") {
 		vscode.env.openExternal(`http://localhost:5173/profile/${user.userId}`);
 	} else if (message.command === "redirect") {
