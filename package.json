@@ -10,7 +10,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onStartupFinished"
+		"onStartupFinished",
+		"onView:dotCodeView"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -43,19 +44,18 @@
 		"viewsContainers": {
 			"activitybar": [
 				{
-					"id": "dotCodeSidebar",
+					"id": "dot-code-side-bar",
 					"title": "DotCode",
 					"icon": "resources/dot.svg"
 				}
 			]
 		},
 		"views": {
-			"dotCodeSidebar": [
+			"dot-code-side-bar": [
 				{
-					"id": "dotCodeView",
-					"name": "DotCode",
-					"icon": "resources/dot.svg",
-					"contextualTitle": "DotCode"
+					"type": "webview",
+					"id": "dot-code-side-view",
+					"name": "DotCode"
 				}
 			]
 		}
