@@ -47,6 +47,8 @@ function activate(context) {
 				const content = event.textEditor.document.getText(
 					event.selections[event.selections.length - 1]
 				);
+				const languageId = event.textEditor.document.languageId;
+
 				if (content) {
 					selectionTimer = setTimeout(() => {
 						vscode.window
@@ -56,7 +58,7 @@ function activate(context) {
 							)
 							.then((selection) => {
 								if (selection === "Save Snippet") {
-									uploadPanel(event, context);
+									uploadPanel(content, languageId, context);
 								}
 							});
 					}, 700);
@@ -72,6 +74,11 @@ function activate(context) {
 				await search();
 			}
 		)
+	);
+	context.subscriptions.push(
+		vscode.commands.registerCommand("my-first-extension.createProject", () => {
+			uploadPanel("", "", context);
+		})
 	);
 
 	context.subscriptions.push(
