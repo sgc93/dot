@@ -39,6 +39,10 @@
 			{
 				"command": "my-first-extension.myAccount",
 				"title": "DotCode: My Account"
+			},
+			{
+				"command": "my-first-extension.refreshSideBar",
+				"title": "DotCode: Refresh Sidebar"
 			}
 		],
 		"viewsContainers": {
