@@ -34,21 +34,30 @@ const handleReceivedMessage = (message) => {
 
 class DotCodeWebViewProvider {
 	constructor(context) {
+		this.user = userData.getUserData(context);
 		this.context = context;
+		this.currentView = null;
 	}
 
 	resolveWebviewView(webviewView) {
+		this.currentView = webviewView;
 		webviewView.webview.options = {
 			enableScripts: true,
 		};
 
-		const user = userData.getUserData(this.context);
-
-		webviewView.webview.html = sideViewContent(user && user.token, user);
+		webviewView.webview.html = sideViewContent(
+			this.user && this.user.token,
+			this.user
+		);
 
 		webviewView.webview.onDidReceiveMessage((message) =>
 			handleReceivedMessage(message)
 		);
+	}
+
+	refreshContent() {
+		const user = userData.getUserData(this.context);
+		this.currentView.webview.html = sideViewContent(user && user.token, user);
 	}
 }
 
