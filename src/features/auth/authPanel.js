@@ -17,6 +17,7 @@ const handleReceivedMessage = async (message, context, panel) => {
 				panel.webview.html = getLoginSuccessWebContent();
 				panel.webview.postMessage(user);
 			}
+			vscode.commands.executeCommand("my-first-extension.refreshSideBar");
 		}
 	} else if (message.command === "signUp") {
 		const isSignedUp = await handleSignUP(data, context);
@@ -27,6 +28,7 @@ const handleReceivedMessage = async (message, context, panel) => {
 				panel.webview.html = getLoginSuccessWebContent();
 				panel.webview.postMessage(user);
 			}
+			vscode.commands.executeCommand("my-first-extension.refreshSideBar");
 		}
 	} else if (message.command === "redirect") {
 		redirect(message.data);
