@@ -28,6 +28,7 @@ const handleReceivedMessage = (message) => {
 			vscode.window.showInformationMessage(
 				"select a code if it exists or write it on a file then select it, a popup info box will tell you to save it automatically"
 			);
+			vscode.commands.executeCommand("my-first-extension.createProject");
 			break;
 	}
 };
