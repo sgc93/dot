@@ -1,5 +1,5 @@
 function sideViewContent(isUserLoggedIn, user) {
-	const name = isUserLoggedIn ? user.name : "dot-coder";
+	const name = isUserLoggedIn ? user.name : "Login";
 	const email = isUserLoggedIn ? user.email : "";
 
 	return `
@@ -38,7 +38,7 @@ function sideViewContent(isUserLoggedIn, user) {
 				align-items: center;
 				gap: 0.5rem;
 				padding: 0 0.5rem 0.5rem;
-				border-bottom: 1px solid #555;
+				border-bottom: 1px solid #5556;
 				background: linear-gradient(to top, #5555, transparent);
 			}
 
@@ -51,7 +51,7 @@ function sideViewContent(isUserLoggedIn, user) {
 				min-width: 1.5rem;
 				height: 1.6rem;
 				border-radius: 50%;
-				border: 2px solid #858eff;
+				border: 1px solid #858eff;
 				font-size: 1rem;
 				color: #858eff;
 
@@ -87,7 +87,7 @@ function sideViewContent(isUserLoggedIn, user) {
 				color: #fff8;
 				padding-bottom: 0.5rem;
 				font-size: 0.8rem;
-				border-bottom: 1px solid #555;
+				border-bottom: 1px solid #5556;
 			}
 
 			.content-box {
@@ -101,28 +101,28 @@ function sideViewContent(isUserLoggedIn, user) {
 				flex-direction: column;
 				align-items: start;
 				gap: 0.5rem;
-				border: 1px solid #fff4;
+				border: 1px solid #fff3;
 				background-color: #fff1;
 				padding: 0.5rem;
 				border-radius: 0.3rem;
 
 				cursor: pointer;
 				transition: all 0.3s;
-				color: rgb(203, 200, 200);
 			}
 
 			.content-box_data span:first-child {
 				font-size: 1rem;
 				font-weight: 600;
+				color: #ffffffc4;
 			}
 			.content-box_data span:nth-child(2) {
 				font-size: 0.8rem;
 				font-weight: normal;
+				color: #ffffff8d;
 			}
 
 			.content-box_data:hover {
 				background-color: #fff2;
-				color: #fff9;
 			}
 
 			button {
@@ -194,7 +194,7 @@ function sideViewContent(isUserLoggedIn, user) {
 
 		<script>
 			document.addEventListener("DOMContentLoaded", () => {
-				// const vscode = acquireVsCodeApi();
+				const vscode = acquireVsCodeApi();
 
 				const dotCodeLink = document.getElementById("dotCodeLink");
 				const accountBtn = document.getElementById("accountBtn");
@@ -222,16 +222,30 @@ function sideViewContent(isUserLoggedIn, user) {
 					});
 				};
 
-				projectsCommand.addEventListener("click", (event) =>
-					goToCommand("projects")
-				);
-				searchCommand.addEventListener("click", (event) =>
-					goToCommand("search")
-				);
-				signupCommand.addEventListener("click", (event) =>
-					goToCommand("signup")
-				);
-				loginCommand.addEventListener("click", (event) => goToCommand("login"));
+				projectsCommand.addEventListener("click", (event) => {
+					event.preventDefault();
+					goToCommand("projects");
+				});
+
+				searchCommand.addEventListener("click", (event) => {
+					event.preventDefault();
+					goToCommand("search");
+				});
+
+				signupCommand.addEventListener("click", (event) => {
+					event.preventDefault();
+					goToCommand("signup");
+				});
+
+				loginCommand.addEventListener("click", (event) => {
+					event.preventDefault();
+					goToCommand("login");
+				});
+
+				createCommand.addEventListener("click", (event) => {
+					event.preventDefault();
+					goToCommand("create");
+				});
 
 				dotCodeLink.addEventListener("click", (event) => {
 					event.preventDefault();
