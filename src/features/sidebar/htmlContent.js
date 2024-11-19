@@ -1,4 +1,7 @@
-function sideViewContent() {
+function sideViewContent(isUserLoggedIn, user) {
+	const name = isUserLoggedIn ? user.name : "dot-coder";
+	const email = isUserLoggedIn ? user.email : "";
+
 	return `
   <!DOCTYPE html>
 <html lang="en">
@@ -139,8 +142,8 @@ function sideViewContent() {
 	<body>
 		<header>
 			<a id="dotCodeLink">dot</a>
-			<button id="accountBtn">User</button>
-			<span id="emailSpan">user@gmail.com</span>
+			<button id="accountBtn">${name}</button>
+			<span id="emailSpan">${email}</span>
 		</header>
 		<div class="content-header">
 			Explore <span style="color: #858eff; font-weight: bold">DotCode</span> to
