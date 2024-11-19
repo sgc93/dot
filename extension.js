@@ -1,3 +1,5 @@
+const DotCodeWebViewProvider = require("./src/features/sidebar/dotCodeWebiewProvieder");
+
 const uploadPanel = require("./src/features/upload/uploadPanel");
 
 const dotCodeProfilePanel = require("./src/features/profile/profilePanel");
@@ -14,6 +16,13 @@ let selectionTimer = null;
 
 function activate(context) {
 	console.log('Congratulations, your extension "MyVSC" is now active!');
+
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider(
+			"dot-code-side-view",
+			new DotCodeWebViewProvider(context)
+		)
+	);
 
 	context.subscriptions.push(
 		vscode.window.onDidChangeTextEditorSelection((event) => {
