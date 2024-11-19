@@ -21,6 +21,10 @@
 				"title": "DotCode: Search Projects"
 			},
 			{
+				"command": "my-first-extension.createProject",
+				"title": "DotCode: Create Project"
+			},
+			{
 				"command": "my-first-extension.login",
 				"title": "DotCode: Login"
 			},
