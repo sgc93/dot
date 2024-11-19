@@ -17,11 +17,21 @@ let selectionTimer = null;
 function activate(context) {
 	console.log('Congratulations, your extension "MyVSC" is now active!');
 
+	const sidebarViewProvider = new DotCodeWebViewProvider(context);
+
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(
 			"dot-code-side-view",
-			new DotCodeWebViewProvider(context)
+			sidebarViewProvider
 		)
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand("my-first-extension.refreshSideBar", () => {
+			if (sidebarViewProvider) {
+				sidebarViewProvider.refreshContent();
+			}
+		})
 	);
 
 	context.subscriptions.push(
@@ -55,11 +65,13 @@ function activate(context) {
 		})
 	);
 
-	const disposable = vscode.commands.registerCommand(
-		"my-first-extension.searchDotCodeProjects",
-		async function () {
-			await search();
-		}
+	context.subscriptions.push(
+		vscode.commands.registerCommand(
+			"my-first-extension.searchDotCodeProjects",
+			async function () {
+				await search();
+			}
+		)
 	);
 
 	context.subscriptions.push(
@@ -87,8 +99,6 @@ function activate(context) {
 			dotCodeProfilePanel("Account", context)
 		)
 	);
-
-	context.subscriptions.push(disposable);
 }
 
 function deactivate() {}
