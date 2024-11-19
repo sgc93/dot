@@ -1,57 +1,247 @@
-function getHtmlContent(state) {
-	const formContent = `
-    <h2>Login</h2>
-    <form id="login-form">
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit">Log In</button>
-    </form>
-  `;
-
+function sideViewContent() {
 	return `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Sidebar</title>
-      <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-        h2 { text-align: center; }
-        #form-container { padding: 10px; }
-        input { width: 100%; padding: 8px; margin-bottom: 10px; }
-        button { width: 100%; padding: 10px; }
-        #project-list { margin-top: 20px; padding: 10px; }
-        .project { padding: 8px; border: 1px solid #ccc; margin-bottom: 10px; }
-      </style>
-    </head>
-    <body>
-      <div style="text-align: center; padding: 10px;">
-        <button id="signUp-btn">Sign Up</button>
-        <button id="login-btn">Login</button>
-        <button id="forgotPassword-btn">Forgot Password</button>
-        <button id="searchProject-btn">Search Project</button>
-      </div>
-      
-      <div id="form-container">${formContent}</div>
+  <!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>DotCode Profile</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				padding: 0.3rem;
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+			}
 
-      <script>
-        const vscode = acquireVsCodeApi();
+			body::-webkit-scrollbar {
+				background-color: transparent;
+				width: 9px;
+			}
+			body::-webkit-scrollbar-thumb {
+				background-color: #5554;
+				width: 9px;
+				transition: all 0.3s;
+			}
+			body::-webkit-scrollbar-thumb:hover {
+				background-color: #5558;
+				width: 9px;
+			}
 
-        // Handle button clicks
-        document.getElementById("signUp-btn").addEventListener("click", () => {
-          // Redirect to external sign-up page
-          window.open('https://your-signup-page-url.com', '_blank');
-        });
+			header {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 0.5rem;
+				padding: 0 0.5rem 0.5rem;
+				border-bottom: 1px solid #555;
+				background: linear-gradient(to top, #5555, transparent);
+			}
 
-        document.getElementById("login-form")?.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-          vscode.postMessage({ command: "login", email, password });
-        });
-      </script>
-    </body>
-    </html>
-  `;
+			header a {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
+				width: 1.6rem;
+				min-width: 1.5rem;
+				height: 1.6rem;
+				border-radius: 50%;
+				border: 2px solid #858eff;
+				font-size: 1rem;
+				color: #858eff;
+
+				transition: all 0.4s;
+			}
+
+			header a:hover {
+				color: white;
+				background-color: #858eff;
+			}
+
+			header button {
+				border-radius: 0.5rem;
+				padding: 0.4rem 0.6rem;
+				color: #fff9;
+				background-color: #5556;
+				border-bottom: 2px solid transparent;
+				font-size: 0.9rem;
+			}
+
+			header button:hover {
+				color: #fff;
+				background-color: #555;
+			}
+
+			header span {
+				color: #fff9;
+				line-clamp: 1;
+				text-overflow: ellipsis;
+			}
+
+			.content-header {
+				color: #fff8;
+				padding-bottom: 0.5rem;
+				font-size: 0.8rem;
+				border-bottom: 1px solid #555;
+			}
+
+			.content-box {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+
+			.content-box_data {
+				display: flex;
+				flex-direction: column;
+				align-items: start;
+				gap: 0.5rem;
+				border: 1px solid #fff4;
+				background-color: #fff1;
+				padding: 0.5rem;
+				border-radius: 0.3rem;
+
+				cursor: pointer;
+				transition: all 0.3s;
+				color: rgb(203, 200, 200);
+			}
+
+			.content-box_data span:first-child {
+				font-size: 1rem;
+				font-weight: 600;
+			}
+			.content-box_data span:nth-child(2) {
+				font-size: 0.8rem;
+				font-weight: normal;
+			}
+
+			.content-box_data:hover {
+				background-color: #fff2;
+				color: #fff9;
+			}
+
+			button {
+				padding: 10px;
+				font-size: 16px;
+				color: white;
+				font-weight: bold;
+				font-size: 1.1rem;
+				outline: none;
+				border: none;
+
+				cursor: pointer;
+				transition: all 0.3s;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<a id="dotCodeLink">dot</a>
+			<button id="accountBtn">User</button>
+			<span id="emailSpan">user@gmail.com</span>
+		</header>
+		<div class="content-header">
+			Explore <span style="color: #858eff; font-weight: bold">DotCode</span> to
+			<span style="color: #dd710d; font-weight: 700">Create</span>,
+			<span style="color: #1bd0c1; font-weight: 700">Store</span> and
+			<span style="color: #a033f4; font-weight: 700">Reuse</span> Snippets
+		</div>
+		<div class="content-box">
+			<div id="searchCommand" class="content-box_data">
+				<span>DotCode: Search Projects</span>
+				<span
+					>Search and access publicly published projects from community</span
+				>
+			</div>
+			<div id="projectsCommand" class="content-box_data">
+				<span>DotCode: My Projects</span>
+				<span>Access and manipulate your existed projects</span>
+			</div>
+			<div id="accountCommand" class="content-box_data">
+				<span>DotCode: My Account</span>
+				<span
+					>Manage your DotCode account: logged in account, see detail, reset
+					password, ...</span
+				>
+			</div>
+			<div id="signupCommand" class="content-box_data">
+				<span>DotCode: Sign Up</span>
+				<span
+					>Create new account here in vs with user friendly features and be
+					ready to manage ui components and snippets</span
+				>
+			</div>
+			<div id="loginCommand" class="content-box_data">
+				<span>DotCode: Login</span>
+				<span
+					>Logged in with existed email and correct password, access your
+					projects and add more from here</span
+				>
+			</div>
+			<div id="createCommand" class="content-box_data">
+				<span>DotCode: Create Project</span>
+				<span
+					>Select code from any active editor (tab) a pop up info message will
+					appear automatically at bottom right</span
+				>
+			</div>
+		</div>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				// const vscode = acquireVsCodeApi();
+
+				const dotCodeLink = document.getElementById("dotCodeLink");
+				const accountBtn = document.getElementById("accountBtn");
+
+				const searchCommand = document.getElementById("searchCommand");
+				const projectsCommand = document.getElementById("projectsCommand");
+				const accountCommand = document.getElementById("accountCommand");
+				const signupCommand = document.getElementById("signupCommand");
+				const loginCommand = document.getElementById("loginCommand");
+				const createCommand = document.getElementById("createCommand");
+
+				const goToAccount = (event) => {
+					event.preventDefault();
+					vscode.postMessage({
+						command: "account",
+					});
+				};
+
+				accountBtn.addEventListener("click", goToAccount);
+				accountCommand.addEventListener("click", goToAccount);
+
+				const goToCommand = (command) => {
+					vscode.postMessage({
+						command,
+					});
+				};
+
+				projectsCommand.addEventListener("click", (event) =>
+					goToCommand("projects")
+				);
+				searchCommand.addEventListener("click", (event) =>
+					goToCommand("search")
+				);
+				signupCommand.addEventListener("click", (event) =>
+					goToCommand("signup")
+				);
+				loginCommand.addEventListener("click", (event) => goToCommand("login"));
+
+				dotCodeLink.addEventListener("click", (event) => {
+					event.preventDefault();
+					vscode.postMessage({
+						command: "redirect",
+						data: "http://localhost:5173",
+					});
+				});
+			});
+		</script>
+	</body>
+</html>
+`;
 }
+
+module.exports = sideViewContent;
