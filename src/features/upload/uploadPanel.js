@@ -8,6 +8,10 @@ const renameLng = (lngName) => {
 		return "js";
 	} else if (lngName.toLocaleLowerCase() === "javascriptreact") {
 		return "react";
+	} else if (lngName === "") {
+		return "other";
+	} else {
+		return lngName;
 	}
 };
 
@@ -47,27 +51,7 @@ const handleReceivedMessage = (message, context, panel, code, lngId) => {
 	}
 };
 
-const uploadPanel = (event, context) => {
-	const selection = event.selections[event.selections.length - 1];
-	if (!event || !event.textEditor) {
-		vscode.window.showErrorMessage("No active editor found.");
-		return;
-	}
-
-	if (!selection) {
-		vscode.window.showErrorMessage("No selection made.");
-		return;
-	}
-
-	const selectedCode = event.textEditor.document.getText(selection);
-	const languageId = event.textEditor.document.languageId;
-	console.log("current lnguage mode: ", languageId);
-
-	if (!selectedCode) {
-		vscode.window.showErrorMessage("No code selected.");
-		return;
-	}
-
+const uploadPanel = (codeContent, lngId, context) => {
 	const panel = vscode.window.createWebviewPanel(
 		"codeSnippetView",
 		"DotCode - Snippet",
@@ -77,14 +61,10 @@ const uploadPanel = (event, context) => {
 		}
 	);
 
-	panel.webview.html = getWebviewContent(
-		selectedCode,
-		languageId === "javascriptreact" ? "React_Jsx" : languageId,
-		false
-	);
+	panel.webview.html = getWebviewContent(codeContent, renameLng(lngId), false);
 
 	panel.webview.onDidReceiveMessage((message) =>
-		handleReceivedMessage(message, context, panel, selectedCode, languageId)
+		handleReceivedMessage(message, context, panel, codeContent, lngId)
 	);
 };
 
