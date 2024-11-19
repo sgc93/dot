@@ -13,7 +13,7 @@ async function getMyProjects(token) {
 		if (res.data.data.doc.projects.length === 0) {
 			return [];
 		} else if (res.data.data.doc.projects.length > 0) {
-			const projects = res.data.data.doc.projects;
+			const projects = res.data.data.doc.projects.reverse();
 			return projects;
 		}
 	} catch (err) {
