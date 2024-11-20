@@ -1,3 +1,4 @@
+const handleCopy = require("../../utils/codeCopy");
 const resultAction = require("../search/searchResults");
 const vscode = require("vscode");
 const userData = require("../../utils/userData");
@@ -29,6 +30,8 @@ const handleReceivedMessage = async (message, context, panel) => {
 					? "javascript"
 					: project.lngName,
 		});
+	} else if (message.command === "copyCode") {
+		await handleCopy(message.code);
 	}
 };
 
