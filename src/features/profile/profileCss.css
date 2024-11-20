@@ -308,9 +308,30 @@ button {
 
 	transition: all 0.3s;
 }
+
 .project-box_footer button:hover {
 	background-color: #858dff94;
 	color: #fff;
+}
+
+.project-box_copy-box {
+	position: relative;
+	min-width: 5rem;
+	display: flex;
+}
+
+.project-box_copy-box_list {
+	position: absolute;
+	bottom: -0.6rem;
+	left: 0;
+	flex-direction: column;
+	gap: 0.1rem;
+
+	border: 1px solid #fff1;
+	background-color: #fff3;
+	padding: 2px;
+	border-radius: 0.3rem;
+	width: max-content;
 }
 
 .hidden {
