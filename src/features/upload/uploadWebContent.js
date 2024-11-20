@@ -247,7 +247,10 @@ function getWebviewContent(code, languageId, isCreated, data) {
 		</header>
 		<div class="about-box">
 			<div class="code-box_header">
-				<span>Code Snippet with <span id="lngName">${languageId}</span></span>
+				<span>
+					<span>Code Snippet with </span>
+					<input type="text" placeholder="Language Name" value="${languageId}" id="lngName" />
+				</span>
 				<button id="hideCodeBtn">hide code</button>
 			</div>
 			<div id="codeBox" class="code-box">
@@ -297,7 +300,7 @@ function getWebviewContent(code, languageId, isCreated, data) {
 				const fields = Array.from(document.getElementsByTagName("input"));
 				const dotCodeLink = document.getElementById("dotCodeLink");
 
-				const lngName = document.getElementById("lngName");
+				const langName = document.getElementById("lngName");
 				const hideCodeBtn = document.getElementById("hideCodeBtn");
 				const errorBox = document.getElementById("errorBox");
 				const codeBox = document.getElementById("codeBox");
@@ -334,6 +337,15 @@ function getWebviewContent(code, languageId, isCreated, data) {
 					if (isEmpty(code)) {
 						errorBox.classList.remove("not-seen");
 						errorBox.innerHTML = "Project should have code content";
+						return false;
+					} else {
+						return true;
+					}
+				};
+				const validateLngName = (lngName) => {
+					if (isEmpty(lngName)) {
+						errorBox.classList.remove("not-seen");
+						errorBox.innerHTML = "Specify the snippet language please, at the top 👆🏻";
 						return false;
 					} else {
 						return true;
@@ -413,20 +425,24 @@ function getWebviewContent(code, languageId, isCreated, data) {
 					const tags = tagsField.value;
 					const visibility = visibilityFiled.value;
 					const code = codeField.textContent;
+					const lngName = langName.value;
 					if (validateCode(code)) {
-						if (validateProjectName(name)) {
-							if (validateProjectVisibility(visibility)) {
-								const data = {
-									name,
-									description,
-									tags: parseTags(tags),
-									visibility: visibility,
-									code: { code },
-								};
-								vscode.postMessage({
-									command: "createProject",
-									data: data,
-								});
+						if(validateLngName(lngName)){
+							if (validateProjectName(name)) {
+								if (validateProjectVisibility(visibility)) {
+									const data = {
+										name,
+										lngName,
+										description,
+										tags: parseTags(tags),
+										visibility: visibility,
+										code: { code },
+									};
+									vscode.postMessage({
+										command: "createProject",
+										data: data,
+									});
+								}
 							}
 						}
 					}
