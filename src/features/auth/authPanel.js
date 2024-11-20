@@ -1,3 +1,5 @@
+const attachIcon = require("../../utils/attachIcon");
+
 const handleSignUP = require("../../api/signUp");
 const vscode = require("vscode");
 const getAuthWebContent = require("./authWebContent");
@@ -49,6 +51,7 @@ const dotCodeAuthPanel = (action, context) => {
 	);
 
 	panel.webview.html = getAuthWebContent(action);
+	attachIcon(panel, "resources/dotCode.svg", context);
 	panel.webview.onDidReceiveMessage(
 		async (message) => await handleReceivedMessage(message, context, panel),
 		undefined,

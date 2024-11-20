@@ -1,3 +1,5 @@
+const attachIcon = require("../../utils/attachIcon");
+
 const vscode = require("vscode");
 const getWebviewContent = require("./uploadWebContent");
 const userData = require("../../utils/userData");
@@ -59,6 +61,7 @@ const uploadPanel = (codeContent, lngId, context) => {
 	);
 
 	panel.webview.html = getWebviewContent(codeContent, renameLng(lngId), false);
+	attachIcon(panel, "resources/dotCode.svg", context);
 
 	panel.webview.onDidReceiveMessage((message) =>
 		handleReceivedMessage(message, context, panel, codeContent)
