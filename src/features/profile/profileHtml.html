@@ -207,7 +207,7 @@
 								const copyHandler = (code) => {
 									vscode.postMessage({
 										command: "copyCode",
-										data: project.code.code
+										code: code
 									});
 								}
 
