@@ -145,6 +145,8 @@
 						} else {
 							projectListTitle.textContent = `You have ${projects.length} projects`;
 							projects.forEach((project,  index) => {
+								const isSnippet = project.type === 'snippet';
+
 								projectListBox.insertAdjacentHTML(
 									"beforeend",
 									`
@@ -180,6 +182,14 @@
 												<span>${project.likes.length} stars</span>
 												<span>${project.comments.length} comments</span>
 												<button class="openProjectBtn${index}">Open in new file</button>
+												<div class="project-box_copy-box">
+													<button class="copyCodeBtn${index} shown">copy code</button>
+													<div class="project-box_copy-box_list hidden copyCodeBtnList${index}">
+														<button class="copyHtmlBtn${index}">copy html</button>
+														<button class="copyCssBtn${index}">copy css</button>
+														<button class="copyJsBtn${index}">copy js</button>
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -192,6 +202,52 @@
 									redirect(`http://localhost:5173/community/project/${project._id}`);
 								});
 
+								const codeCopyBtn = document.querySelector(`.copyCodeBtn${index}`);
+								
+								const copyHandler = (code) => {
+									vscode.postMessage({
+										command: "copyCode",
+										data: project.code.code
+									});
+								}
+
+								codeCopyBtn.addEventListener("click", (event) => {
+									event.preventDefault()
+									if(isSnippet){
+										copyHandler(project.code.code)
+									} else {
+										const copyBtnListBox= document.querySelector(`.copyCodeBtnList${index}`);
+										copyBtnListBox.classList.remove('hidden');
+										copyBtnListBox.classList.add('shown');
+										codeCopyBtn.classList.remove('shown');
+										codeCopyBtn.classList.add('hidden');
+
+										const copyHtmlBtn= document.querySelector(`.copyHtmlBtn${index}`);
+										const copyCssBtn= document.querySelector(`.copyCssBtn${index}`);
+										const copyJsBtn= document.querySelector(`.copyJsBtn${index}`);
+
+										[{
+											element: copyHtmlBtn,
+												code: project.code.html
+											},{
+												element: copyCssBtn,
+												code: project.code.css
+											},{
+												element: copyJsBtn,
+												code: project.code.js
+											}].forEach(btn => {
+												btn.element.addEventListener('click', event => {
+													event.preventDefault();
+													copyHandler(btn.code);
+													codeCopyBtn.classList.remove('hidden');
+													codeCopyBtn.classList.add('shown');
+													copyBtnListBox.classList.remove('shown');
+													copyBtnListBox.classList.add('hidden');
+												})
+											})
+									}
+								});
+								
 								const openProjectBtn = document.querySelector(`.openProjectBtn${index}`);
 								openProjectBtn.addEventListener("click", (event) => {
 									event.preventDefault()
