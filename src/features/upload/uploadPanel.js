@@ -8,14 +8,12 @@ const renameLng = (lngName) => {
 		return "js";
 	} else if (lngName.toLocaleLowerCase() === "javascriptreact") {
 		return "react";
-	} else if (lngName === "") {
-		return "other";
 	} else {
 		return lngName;
 	}
 };
 
-const handleReceivedMessage = (message, context, panel, code, lngId) => {
+const handleReceivedMessage = async (message, context, panel, code) => {
 	if (message.command === "redirect") {
 		vscode.env.openExternal(message.data);
 	} else if (message.command === "createProject") {
@@ -26,16 +24,15 @@ const handleReceivedMessage = (message, context, panel, code, lngId) => {
 				...message.data,
 				owner: user.userId,
 				type: "snippet",
-				lngName: renameLng(lngId),
 			};
-			const isCreated = createProject(data, user.token);
+			const isCreated = await createProject(data, user.token);
 			if (isCreated) {
 				const user = userData.getUserData(context);
 				if (user) {
 					panel.title = `DotCode - ${message.data.name}`;
 					panel.webview.html = getWebviewContent(
 						code,
-						lngId,
+						data.lngName,
 						true,
 						message.data
 					);
@@ -64,7 +61,7 @@ const uploadPanel = (codeContent, lngId, context) => {
 	panel.webview.html = getWebviewContent(codeContent, renameLng(lngId), false);
 
 	panel.webview.onDidReceiveMessage((message) =>
-		handleReceivedMessage(message, context, panel, codeContent, lngId)
+		handleReceivedMessage(message, context, panel, codeContent)
 	);
 };
 
