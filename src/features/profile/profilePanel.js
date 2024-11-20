@@ -1,3 +1,5 @@
+const attachIcon = require("../../utils/attachIcon");
+
 const handleCopy = require("../../utils/codeCopy");
 const resultAction = require("../search/searchResults");
 const vscode = require("vscode");
@@ -53,6 +55,8 @@ const dotCodeProfilePanel = async (action, context) => {
 		}
 
 		panel.webview.html = getProfileWebContent(action);
+
+		attachIcon(panel, "resources/dotCode.svg", context);
 
 		const projects = await getMyProjects(user.token);
 		if (projects) {
