@@ -8,27 +8,25 @@ const handleReceivedMessage = (message) => {
 			vscode.env.openExternal(message.data);
 			break;
 		case "account":
-			vscode.commands.executeCommand("my-first-extension.myAccount");
+			vscode.commands.executeCommand("dot-code.myAccount");
 			break;
 		case "projects":
-			vscode.commands.executeCommand("my-first-extension.myProjects");
+			vscode.commands.executeCommand("dot-code.myProjects");
 			break;
 		case "search":
-			vscode.commands.executeCommand(
-				"my-first-extension.searchDotCodeProjects"
-			);
+			vscode.commands.executeCommand("dot-code.searchDotCodeProjects");
 			break;
 		case "signup":
-			vscode.commands.executeCommand("my-first-extension.signUp");
+			vscode.commands.executeCommand("dot-code.signUp");
 			break;
 		case "login":
-			vscode.commands.executeCommand("my-first-extension.login");
+			vscode.commands.executeCommand("dot-code.login");
 			break;
 		case "create":
 			vscode.window.showInformationMessage(
 				"select a code if it exists or write it on a file then select it, a popup info box will tell you to save it automatically"
 			);
-			vscode.commands.executeCommand("my-first-extension.createProject");
+			vscode.commands.executeCommand("dot-code.createProject");
 			break;
 	}
 };

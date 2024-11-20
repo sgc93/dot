@@ -45,7 +45,7 @@ const handleReceivedMessage = async (message, context, panel, code) => {
 			vscode.window.showErrorMessage(
 				"No logged in account detected, please login first!"
 			);
-			vscode.commands.executeCommand("my-first-extension.login");
+			vscode.commands.executeCommand("dot-code.login");
 		}
 	}
 };

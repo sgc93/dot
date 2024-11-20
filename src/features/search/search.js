@@ -14,9 +14,7 @@ async function search() {
 			.showErrorMessage("Search query cannot be EMPTY", "Retry")
 			.then((selection) => {
 				if (selection === "Retry") {
-					vscode.commands.executeCommand(
-						"my-first-extension.searchDotCodeProjects"
-					);
+					vscode.commands.executeCommand("dot-code.searchDotCodeProjects");
 				}
 			});
 		return;
@@ -65,9 +63,7 @@ async function search() {
 				)
 				.then((selection) => {
 					if (selection === "Retry") {
-						vscode.commands.executeCommand(
-							"my-first-extension.searchDotCodeProjects"
-						);
+						vscode.commands.executeCommand("dot-code.searchDotCodeProjects");
 					} else if (selection === "Visit DotCode Web") {
 						vscode.env.openExternal("http://localhost:5173/community");
 					}

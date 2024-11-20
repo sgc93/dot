@@ -17,7 +17,7 @@ const handleReceivedMessage = async (message, context, panel) => {
 		const isLoggedOut = await handleLogout(user, context);
 		if (isLoggedOut) {
 			panel.dispose();
-			vscode.commands.executeCommand("my-first-extension.refreshSideBar");
+			vscode.commands.executeCommand("dot-code.refreshSideBar");
 		}
 	} else if (message.command === "detailProfile") {
 		vscode.env.openExternal(`http://localhost:5173/profile/${user.userId}`);
@@ -85,10 +85,10 @@ const dotCodeProfilePanel = async (action, context) => {
 			)
 			.then((selection) => {
 				if (selection === "Login") {
-					vscode.commands.executeCommand("my-first-extension.login");
+					vscode.commands.executeCommand("dot-code.login");
 				}
 			});
-		vscode.commands.executeCommand("my-first-extension.login");
+		vscode.commands.executeCommand("dot-code.login");
 	}
 };
 

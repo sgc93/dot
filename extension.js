@@ -27,7 +27,7 @@ function activate(context) {
 	);
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand("my-first-extension.refreshSideBar", () => {
+		vscode.commands.registerCommand("dot-code.refreshSideBar", () => {
 			if (sidebarViewProvider) {
 				sidebarViewProvider.refreshContent();
 			}
@@ -69,40 +69,40 @@ function activate(context) {
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand(
-			"my-first-extension.searchDotCodeProjects",
+			"dot-code.searchDotCodeProjects",
 			async function () {
 				await search();
 			}
 		)
 	);
 	context.subscriptions.push(
-		vscode.commands.registerCommand("my-first-extension.createProject", () => {
+		vscode.commands.registerCommand("dot-code.createProject", () => {
 			uploadPanel("", "", context);
 		})
 	);
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand("my-first-extension.login", () =>
+		vscode.commands.registerCommand("dot-code.login", () =>
 			dotCodeAuthPanel("Login", context)
 		)
 	);
 	context.subscriptions.push(
-		vscode.commands.registerCommand("my-first-extension.signUp", () =>
+		vscode.commands.registerCommand("dot-code.signUp", () =>
 			dotCodeAuthPanel("Sign Up", context)
 		)
 	);
 	context.subscriptions.push(
-		vscode.commands.registerCommand("my-first-extension.logout", () =>
+		vscode.commands.registerCommand("dot-code.logout", () =>
 			dotCodeProfilePanel("Log Out", context)
 		)
 	);
 	context.subscriptions.push(
-		vscode.commands.registerCommand("my-first-extension.myProjects", () =>
+		vscode.commands.registerCommand("dot-code.myProjects", () =>
 			dotCodeProfilePanel("Projects", context)
 		)
 	);
 	context.subscriptions.push(
-		vscode.commands.registerCommand("my-first-extension.myAccount", () =>
+		vscode.commands.registerCommand("dot-code.myAccount", () =>
 			dotCodeProfilePanel("Account", context)
 		)
 	);

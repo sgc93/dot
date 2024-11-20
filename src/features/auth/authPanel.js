@@ -19,7 +19,7 @@ const handleReceivedMessage = async (message, context, panel) => {
 				panel.webview.html = getLoginSuccessWebContent();
 				panel.webview.postMessage(user);
 			}
-			vscode.commands.executeCommand("my-first-extension.refreshSideBar");
+			vscode.commands.executeCommand("dot-code.refreshSideBar");
 		}
 	} else if (message.command === "signUp") {
 		const isSignedUp = await handleSignUP(data, context);
@@ -30,13 +30,13 @@ const handleReceivedMessage = async (message, context, panel) => {
 				panel.webview.html = getLoginSuccessWebContent();
 				panel.webview.postMessage(user);
 			}
-			vscode.commands.executeCommand("my-first-extension.refreshSideBar");
+			vscode.commands.executeCommand("dot-code.refreshSideBar");
 		}
 	} else if (message.command === "redirect") {
 		redirect(message.data);
 	} else if (message.command === "openProfile") {
 		panel.dispose();
-		vscode.commands.executeCommand("my-first-extension.myAccount");
+		vscode.commands.executeCommand("dot-code.myAccount");
 	}
 };
 

@@ -1,7 +1,8 @@
 {
-	"name": "my-first-extension",
-	"displayName": "My first extension",
-	"description": "Learning vscode extension",
+	"name": "dot-code",
+	"displayName": "DotCode",
+	"description": "a vscode extension for ui-component and code snippet management application ",
+	"icon": "sources/dotcode.png",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.95.0"
@@ -17,35 +18,35 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "my-first-extension.searchDotCodeProjects",
+				"command": "dot-code.searchDotCodeProjects",
 				"title": "DotCode: Search Projects"
 			},
 			{
-				"command": "my-first-extension.createProject",
+				"command": "dot-code.createProject",
 				"title": "DotCode: Create Project"
 			},
 			{
-				"command": "my-first-extension.login",
+				"command": "dot-code.login",
 				"title": "DotCode: Login"
 			},
 			{
-				"command": "my-first-extension.signUp",
+				"command": "dot-code.signUp",
 				"title": "DotCode: Sign Up"
 			},
 			{
-				"command": "my-first-extension.logout",
+				"command": "dot-code.logout",
 				"title": "DotCode: Log Out"
 			},
 			{
-				"command": "my-first-extension.myProjects",
+				"command": "dot-code.myProjects",
 				"title": "DotCode: My Projects"
 			},
 			{
-				"command": "my-first-extension.myAccount",
+				"command": "dot-code.myAccount",
 				"title": "DotCode: My Account"
 			},
 			{
-				"command": "my-first-extension.refreshSideBar",
+				"command": "dot-code.refreshSideBar",
 				"title": "DotCode: Refresh Sidebar"
 			}
 		],
