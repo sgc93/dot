@@ -65,7 +65,9 @@ async function search() {
 					if (selection === "Retry") {
 						vscode.commands.executeCommand("dot-code.searchDotCodeProjects");
 					} else if (selection === "Visit DotCode Web") {
-						vscode.env.openExternal("http://localhost:5173/community");
+						vscode.env.openExternal(
+              "https://unlikely-brina-sgc-6053c46d.koyeb.app/community"
+            );
 					}
 				});
 			return;

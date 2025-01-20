@@ -199,7 +199,7 @@
 								const projectName = projectListBox.querySelector(`.projectName${index}`);
 								projectName.addEventListener("click", (event) => {
 									event.preventDefault();
-									redirect(`http://localhost:5173/community/project/${project._id}`);
+									redirect(`https://unlikely-brina-sgc-6053c46d.koyeb.app/community/project/${project._id}`);
 								});
 
 								const codeCopyBtn = document.querySelector(`.copyCodeBtn${index}`);
@@ -315,10 +315,10 @@
 
 				dotCodeLink.addEventListener("click", (event) => {
 					event.preventDefault();
-					redirect("http://localhost:5173")
+					redirect("https://unlikely-brina-sgc-6053c46d.koyeb.app")
 				});
 
-				createProjectBtn.addEventListener('click', () => redirect("http://localhost:5173/editor/dotcode"))
+				createProjectBtn.addEventListener('click', () => redirect("https://unlikely-brina-sgc-6053c46d.koyeb.app/editor/dotcode"))
 
 				const logout = (event) => {
 					event.preventDefault();

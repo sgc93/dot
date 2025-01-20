@@ -38,7 +38,7 @@ function formatIntoQuickPickItems(projects) {
 				? "UI with REACT"
 				: "Snippet with " + project.lngName
 		} `,
-		link: `http://localhost:5173/community/project/${project._id}`,
+		link: `https://unlikely-brina-sgc-6053c46d.koyeb.app/community/project/${project._id}`,
 	}));
 
 	return formattedItems;

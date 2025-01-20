@@ -20,7 +20,9 @@ const handleReceivedMessage = async (message, context, panel) => {
 			vscode.commands.executeCommand("dot-code.refreshSideBar");
 		}
 	} else if (message.command === "detailProfile") {
-		vscode.env.openExternal(`http://localhost:5173/profile/${user.userId}`);
+		vscode.env.openExternal(
+      `https://unlikely-brina-sgc-6053c46d.koyeb.app/profile/${user.userId}`
+    );
 	} else if (message.command === "redirect") {
 		redirect(message.data);
 	} else if (message.command === "openProject") {

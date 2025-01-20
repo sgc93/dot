@@ -240,10 +240,10 @@ function getWebviewContent(code, languageId, isCreated, data) {
 		<header>
 			<a id="dotCodeLink">dot</a>
 			<button>${
-				isCreated
-					? `${data.name} is created successfully!`
-					: "Creating Code Snippet"
-			}</button>
+        isCreated
+          ? `${data.name} is created successfully!`
+          : "Creating Code Snippet"
+      }</button>
 		</header>
 		<div class="about-box">
 			<div class="code-box_header">
@@ -255,8 +255,8 @@ function getWebviewContent(code, languageId, isCreated, data) {
 			</div>
 			<div id="codeBox" class="code-box">
 				<pre contenteditable="true"  id="codeField">${initialCode
-					.replace(/</g, "&lt;")
-					.replace(/>/g, "&gt;")}</pre>
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")}</pre>
 			</div>
 			<div class="data-box">
 				<div class="data-box_header">
@@ -267,11 +267,11 @@ function getWebviewContent(code, languageId, isCreated, data) {
 				<div class="form">
 					<div>
 						<input type="text" id="projectName" placeholder="Project name" value="${
-							isCreated ? data.name : ""
-						}"/>
+              isCreated ? data.name : ""
+            }"/>
 						<input type="text" id="projectDesc" placeholder=" Description"  value="${
-							isCreated ? data.description : ""
-						}"/>
+              isCreated ? data.description : ""
+            }"/>
 					</div>
 					<div>
 						<input
@@ -284,8 +284,8 @@ function getWebviewContent(code, languageId, isCreated, data) {
 							type="text"
 							id="projectVisibility"
 							placeholder="Visibility (public / private)"  value="${
-								isCreated ? data.visibility : ""
-							}"
+                isCreated ? data.visibility : ""
+              }"
 						/>
 					</div>
 					<button id="createBtn">Create Project</button>
@@ -452,7 +452,7 @@ function getWebviewContent(code, languageId, isCreated, data) {
 					event.preventDefault();
 					vscode.postMessage({
 						command: "redirect",
-						data: "http://localhost:5173",
+						data: "https://unlikely-brina-sgc-6053c46d.koyeb.app",
 					});
 				});
 			});
