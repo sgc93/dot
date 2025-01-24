@@ -7,15 +7,15 @@ const handleLogout = async (user, context) => {
 	console.log(user);
 	try {
 		await axios.post(
-			`http://127.0.0.1:9000/api/v1/users/logout`,
-			{},
-			{
-				withCredentials: true,
-				headers: {
-					Authorization: `Bearer ${user.token}`,
-				},
-			}
-		);
+      `https://unlikely-brina-sgc-6053c46d.koyeb.app/api/v1/users/logout`,
+      {},
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      }
+    );
 
 		userData.deleteUserData(context);
 		vscode.window.showInformationMessage(

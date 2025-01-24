@@ -4,8 +4,8 @@ const axios = require("axios");
 async function searchProjects(query) {
 	try {
 		const res = await axios.get(
-			`http://127.0.0.1:9000/api/v1/search/projects?q=${query}`
-		);
+      `https://unlikely-brina-sgc-6053c46d.koyeb.app/api/v1/search/projects?q=${query}`
+    );
 
 		if (res.data.results === 0) {
 			return { results: res.data.results, projectItems: [] };

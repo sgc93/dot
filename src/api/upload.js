@@ -4,12 +4,16 @@ const axios = require("axios");
 async function createProject(data, token) {
 	try {
 		vscode.window.showInformationMessage(`Creating snippet ... ${data.name}`);
-		await axios.post(`http://127.0.0.1:9000/api/v1/projects`, data, {
-			withCredentials: true,
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
+		await axios.post(
+      `https://unlikely-brina-sgc-6053c46d.koyeb.app/api/v1/projects`,
+      data,
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
 
 		vscode.window.showInformationMessage(
 			`${data.name} is created successfully👍🏻`
