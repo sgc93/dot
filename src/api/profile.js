@@ -3,15 +3,12 @@ const axios = require("axios");
 
 async function getMyProjects(token) {
 	try {
-		const res = await axios.get(
-      `https://unlikely-brina-sgc-6053c46d.koyeb.app/api/v1/users/me`,
-      {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+		const res = await axios.get(`https://unlikely-brina-sgc-6053c46d.koyeb.app/api/v1/users/me`, {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`
       }
-    );
+    });
 
 		if (res.data.data.doc.projects.length === 0) {
 			return [];

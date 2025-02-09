@@ -155,7 +155,7 @@ const htmlContent = `
 					event.preventDefault();
 					vscode.postMessage({
 						command: "redirect",
-						data: "https://unlikely-brina-sgc-6053c46d.koyeb.app",
+						data: "http://localhost:5173",
 					});
 				});
 			});
