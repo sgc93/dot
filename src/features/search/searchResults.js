@@ -48,9 +48,9 @@ async function openProjectContent(project) {
 }
 
 async function insertContentAtCursor(project) {
-	const editor = vscode.window.activeTextEditor;
+  const editor = vscode.window.activeTextEditor;
 
-	if (editor) {
+  if (editor) {
     if (!validator.isCodeEmpty(project)) {
       const cursorPosition = editor.selection.active;
 
@@ -170,15 +170,15 @@ async function insertContentAtCursor(project) {
           }
         });
     }
-	} else {
-		vscode.window.showErrorMessage(
-			"No active editor found : Unable to access your cursor position"
-		);
-	}
+  } else {
+    vscode.window.showErrorMessage(
+      "No active editor found : Unable to access your cursor position"
+    );
+  }
 }
 
 function openInDotCode(project) {
-	vscode.env.openExternal(project.link);
+  vscode.env.openExternal(project.link);
 }
 
 module.exports = { openProjectContent, insertContentAtCursor, openInDotCode };
