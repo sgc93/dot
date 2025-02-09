@@ -334,6 +334,22 @@ button {
 	width: max-content;
 }
 
+.editBtn {
+	background-color: #55555562;
+	color: #fff9;
+	font-weight: normal;
+	padding: 0.3rem 0.5rem;
+	border-radius: 0.3rem;
+	font-size: 0.8rem;
+
+	margin-right: 0.2rem;
+	
+}
+
+.editBtn:hover {
+	color: #fff;
+}
+
 .hidden {
 	display: none;
 }

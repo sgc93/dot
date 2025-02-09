@@ -157,6 +157,7 @@
 												>
 												&#10532;</span
 											>
+											<button class="editCodeBtn${index} editBtn">Edit</button>
 										</div>
 										<span>${project.description}</span>
 										<div class="project-box_footer">
@@ -197,10 +198,15 @@
 								);
 
 								const projectName = projectListBox.querySelector(`.projectName${index}`);
-								projectName.addEventListener("click", (event) => {
+								const editBtn = document.querySelector(`.editCodeBtn${index}`);
+
+								const redirectToDotCode = (event) => {
 									event.preventDefault();
 									redirect(`http://localhost:5173/community/project/${project._id}`);
-								});
+								}
+
+								projectName.addEventListener("click", redirectToDotCode);
+								editBtn.addEventListener("click", redirectToDotCode);
 
 								const codeCopyBtn = document.querySelector(`.copyCodeBtn${index}`);
 								
@@ -214,7 +220,7 @@
 								codeCopyBtn.addEventListener("click", (event) => {
 									event.preventDefault()
 									if(isSnippet){
-										copyHandler(project.code.code)
+										copyHandler(project.code[0].code)
 									} else {
 										const copyBtnListBox= document.querySelector(`.copyCodeBtnList${index}`);
 										copyBtnListBox.classList.remove('hidden');
@@ -228,13 +234,13 @@
 
 										[{
 											element: copyHtmlBtn,
-												code: project.code.html
+												code: project.code[0].html
 											},{
 												element: copyCssBtn,
-												code: project.code.css
+												code: project.code[0].css
 											},{
 												element: copyJsBtn,
-												code: project.code.js
+												code: project.code[0].js
 											}].forEach(btn => {
 												btn.element.addEventListener('click', event => {
 													event.preventDefault();
