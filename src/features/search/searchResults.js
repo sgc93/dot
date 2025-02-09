@@ -4,27 +4,44 @@ const validator = require("../../utils/validators");
 async function openProjectContent(project) {
 	const isSnippet = project.type === "snippet";
 	try {
-		if (isSnippet) {
-			const document = await vscode.workspace.openTextDocument({
-				content: isSnippet ? project.code.code : project.code.html,
-				language: isSnippet ? project.lngName : "html",
-			});
+    if (!validator.isCodeEmpty(project)) {
+      if (isSnippet) {
+        const latestCode = project.code[0].code;
+        const document = await vscode.workspace.openTextDocument({
+          content: latestCode,
+          language: project.lngName
+        });
 
-			await vscode.window.showTextDocument(document, { preview: false });
-		} else {
-			[
-				{ code: project.code.html, lng: "html" },
-				{ code: project.code.css, lng: "css" },
-				{ code: project.code.js, lng: "javascript" },
-			].forEach(async (file) => {
-				const document = await vscode.workspace.openTextDocument({
-					content: file.code,
-					language: file.lng,
-				});
+        await vscode.window.showTextDocument(document, { preview: false });
+      } else {
+        const latestCode = project.code[0];
+        [
+          { code: latestCode.html, lng: "html" },
+          { code: latestCode.css, lng: "css" },
+          { code: latestCode.js, lng: "javascript" }
+        ].forEach(async (file) => {
+          const document = await vscode.workspace.openTextDocument({
+            content: file.code,
+            language: file.lng
+          });
 
-				await vscode.window.showTextDocument(document, { preview: false });
-			});
-		}
+          await vscode.window.showTextDocument(document, { preview: false });
+        });
+      }
+    } else {
+      vscode.window
+        .showErrorMessage(
+          "No code content to opne in new file",
+          "Open in DotCode"
+        )
+        .then(async (selection) => {
+          if (selection === "Open in DotCode") {
+            vscode.env.openExternal(
+              `http://localhost:5173/community/project/${project._id}`
+            );
+          }
+        });
+    }
 	} catch (error) {
 		vscode.window.showErrorMessage(`Failed to open project: ${error.message}`);
 	}
