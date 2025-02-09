@@ -34,107 +34,125 @@ async function insertContentAtCursor(project) {
 	const editor = vscode.window.activeTextEditor;
 
 	if (editor) {
-		const cursorPosition = editor.selection.active;
+    if (!validator.isCodeEmpty(project)) {
+      const cursorPosition = editor.selection.active;
 
-		if (project.type === "snippet") {
-			await editor.edit((editBuilder) =>
-				editBuilder.insert(cursorPosition, project.code.code)
-			);
-			vscode.window.showInformationMessage(
-				`${
-					project.lngName === "other" ? "" : project.lngName
-				} Code inserted at you cursor position.`
-			);
-		} else {
-			let language = editor.document.languageId;
-			language = language === "javascript" ? "js" : editor.document.languageId;
+      if (project.type === "snippet") {
+        const latestCode = latestCode[0].code;
+        await editor.edit((editBuilder) =>
+          editBuilder.insert(cursorPosition, latestCode)
+        );
+        vscode.window.showInformationMessage(
+          `${
+            project.lngName === "other" ? "" : project.lngName
+          } Code inserted at you cursor position.`
+        );
+      } else {
+        let language = editor.document.languageId;
+        language =
+          language === "javascript" ? "js" : editor.document.languageId;
 
-			if (validator.isCurrLngModeUiLng(language)) {
-				if (project.code[language]) {
-					await editor.edit((editBuilder) =>
-						editBuilder.insert(cursorPosition, project.code[language])
-					);
+        const latestCode = project.code[0];
 
-					vscode.window.showInformationMessage(
-						`${language.toUpperCase()} Code of selected UI inserted at you cursor position.`
-					);
-				} else {
-					vscode.window
-						.showErrorMessage(
-							`Selected Ui component has no ${language} CONTENT.`,
-							language !== "html" &&
-								project.code.html.length > 0 &&
-								"Insert HTML",
-							language !== "css" && project.code.css.length > 0 && "Insert CSS",
-							language !== "js" &&
-								project.code.js.length > 0 &&
-								"Insert JavaScript"
-						)
-						.then(async (selection) => {
-							if (selection === "Insert HTML") {
-								await editor.edit((editBuilder) =>
-									editBuilder.insert(cursorPosition, project.code.html)
-								);
+        if (validator.isCurrLngModeUiLng(language)) {
+          if (latestCode[language]) {
+            await editor.edit((editBuilder) =>
+              editBuilder.insert(cursorPosition, latestCode[language])
+            );
 
-								vscode.window.showInformationMessage(
-									`HTML Code of selected UI inserted at you cursor position.`
-								);
-							} else if (selection === "Insert CSS") {
-								await editor.edit((editBuilder) =>
-									editBuilder.insert(cursorPosition, project.code.css)
-								);
+            vscode.window.showInformationMessage(
+              `${language.toUpperCase()} Code of selected UI inserted at you cursor position.`
+            );
+          } else {
+            vscode.window
+              .showErrorMessage(
+                `Selected Ui component has no ${language} CONTENT.`,
+                language !== "html" &&
+                  latestCode.html.length > 0 &&
+                  "Insert HTML",
+                language !== "css" && latestCode.css.length > 0 && "Insert CSS",
+                language !== "js" &&
+                  latestCode.js.length > 0 &&
+                  "Insert JavaScript"
+              )
+              .then(async (selection) => {
+                if (selection === "Insert HTML") {
+                  await editor.edit((editBuilder) =>
+                    editBuilder.insert(cursorPosition, latestCode.html)
+                  );
 
-								vscode.window.showInformationMessage(
-									`CSS Code of selected UI inserted at you cursor position.`
-								);
-							} else if (selection === "Insert JavaScript") {
-								await editor.edit((editBuilder) =>
-									editBuilder.insert(cursorPosition, project.code.js)
-								);
+                  vscode.window.showInformationMessage(
+                    `HTML Code of selected UI inserted at you cursor position.`
+                  );
+                } else if (selection === "Insert CSS") {
+                  await editor.edit((editBuilder) =>
+                    editBuilder.insert(cursorPosition, latestCode.css)
+                  );
 
-								vscode.window.showInformationMessage(
-									`JavaScript Code of selected UI inserted at you cursor position.`
-								);
-							}
-						});
-				}
-			} else {
-				vscode.window
-					.showErrorMessage(
-						`Your current language mode ${language.toUpperCase()} is not a UI language in DotCode, do you want still insert?`,
-						"Insert HTML",
-						"Insert CSS",
-						"Insert JavaScript"
-					)
-					.then(async (selection) => {
-						if (selection === "Insert HTML") {
-							await editor.edit((editBuilder) =>
-								editBuilder.insert(cursorPosition, project.code.html)
-							);
+                  vscode.window.showInformationMessage(
+                    `CSS Code of selected UI inserted at you cursor position.`
+                  );
+                } else if (selection === "Insert JavaScript") {
+                  await editor.edit((editBuilder) =>
+                    editBuilder.insert(cursorPosition, latestCode.js)
+                  );
 
-							vscode.window.showInformationMessage(
-								`HTML Code of selected UI inserted at you cursor position.`
-							);
-						} else if (selection === "Insert CSS") {
-							await editor.edit((editBuilder) =>
-								editBuilder.insert(cursorPosition, project.code.css)
-							);
+                  vscode.window.showInformationMessage(
+                    `JavaScript Code of selected UI inserted at you cursor position.`
+                  );
+                }
+              });
+          }
+        } else {
+          vscode.window
+            .showErrorMessage(
+              `Your current language mode ${language.toUpperCase()} is not a UI language in DotCode, do you want still insert?`,
+              "Insert HTML",
+              "Insert CSS",
+              "Insert JavaScript"
+            )
+            .then(async (selection) => {
+              if (selection === "Insert HTML") {
+                await editor.edit((editBuilder) =>
+                  editBuilder.insert(cursorPosition, latestCode.html)
+                );
 
-							vscode.window.showInformationMessage(
-								`CSS Code of selected UI inserted at you cursor position.`
-							);
-						} else if (selection === "Insert JavaScript") {
-							await editor.edit((editBuilder) =>
-								editBuilder.insert(cursorPosition, project.code.js)
-							);
+                vscode.window.showInformationMessage(
+                  `HTML Code of selected UI inserted at you cursor position.`
+                );
+              } else if (selection === "Insert CSS") {
+                await editor.edit((editBuilder) =>
+                  editBuilder.insert(cursorPosition, latestCode.css)
+                );
 
-							vscode.window.showInformationMessage(
-								`JavaScript Code of selected UI inserted at you cursor position.`
-							);
-						}
-					});
-			}
-		}
+                console.log("inserted code: ", latestCode.css);
+
+                vscode.window.showInformationMessage(
+                  `CSS Code of selected UI inserted at you cursor position.`
+                );
+              } else if (selection === "Insert JavaScript") {
+                await editor.edit((editBuilder) =>
+                  editBuilder.insert(cursorPosition, latestCode.js)
+                );
+
+                vscode.window.showInformationMessage(
+                  `JavaScript Code of selected UI inserted at you cursor position.`
+                );
+              }
+            });
+        }
+      }
+    } else {
+      vscode.window
+        .showErrorMessage("No code content to insert", "Open in DotCode")
+        .then(async (selection) => {
+          if (selection === "Open in DotCode") {
+            vscode.env.openExternal(
+              `http://localhost:5173/community/project/${project._id}`
+            );
+          }
+        });
+    }
 	} else {
 		vscode.window.showErrorMessage(
 			"No active editor found : Unable to access your cursor position"
