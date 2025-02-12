@@ -2,8 +2,8 @@ const vscode = require("vscode");
 const validator = require("../../utils/validators");
 
 async function openProjectContent(project) {
-	const isSnippet = project.type === "snippet";
-	try {
+  const isSnippet = project.type === "snippet";
+  try {
     if (!validator.isCodeEmpty(project)) {
       if (isSnippet) {
         const latestCode = project.code[0].code;
@@ -37,14 +37,14 @@ async function openProjectContent(project) {
         .then(async (selection) => {
           if (selection === "Open in DotCode") {
             vscode.env.openExternal(
-              `http://localhost:5173/community/project/${project._id}`
+              `https://dot-deploy-front-end1.vercel.app/community/project/${project._id}`
             );
           }
         });
     }
-	} catch (error) {
-		vscode.window.showErrorMessage(`Failed to open project: ${error.message}`);
-	}
+  } catch (error) {
+    vscode.window.showErrorMessage(`Failed to open project: ${error.message}`);
+  }
 }
 
 async function insertContentAtCursor(project) {
@@ -165,7 +165,7 @@ async function insertContentAtCursor(project) {
         .then(async (selection) => {
           if (selection === "Open in DotCode") {
             vscode.env.openExternal(
-              `http://localhost:5173/community/project/${project._id}`
+              `https://dot-deploy-front-end1.vercel.app/community/project/${project._id}`
             );
           }
         });

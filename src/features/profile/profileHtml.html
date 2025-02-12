@@ -202,7 +202,7 @@
 
 								const redirectToDotCode = (event) => {
 									event.preventDefault();
-									redirect(`http://localhost:5173/community/project/${project._id}`);
+									redirect(`https://dot-deploy-front-end1.vercel.app/community/project/${project._id}`);
 								}
 
 								projectName.addEventListener("click", redirectToDotCode);
@@ -324,7 +324,7 @@
 					redirect("http://localhost:5173")
 				});
 
-				createProjectBtn.addEventListener('click', () => redirect("http://localhost:5173/editor/dotcode"))
+				createProjectBtn.addEventListener('click', () => redirect("https://dot-deploy-front-end1.vercel.app/editor/dotcode"))
 
 				const logout = (event) => {
 					event.preventDefault();
