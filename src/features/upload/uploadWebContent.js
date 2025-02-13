@@ -436,7 +436,7 @@ function getWebviewContent(code, languageId, isCreated, data) {
 										description,
 										tags: parseTags(tags),
 										visibility: visibility,
-										code: { code },
+										code: { code, commitMsg: 'initial commit' },
 									};
 									vscode.postMessage({
 										command: "createProject",
@@ -452,7 +452,7 @@ function getWebviewContent(code, languageId, isCreated, data) {
 					event.preventDefault();
 					vscode.postMessage({
 						command: "redirect",
-						data: "http://localhost:5173",
+						data: "https://dot-deploy-front-end1.vercel.app/",
 					});
 				});
 			});
