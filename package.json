@@ -1,88 +1,106 @@
 {
-	"name": "dot-code",
-	"displayName": "DotCode",
-	"description": "a vscode extension for ui-component and code snippet management application ",
-	"icon": "sources/dotcode.png",
-	"version": "0.0.1",
-	"engines": {
-		"vscode": "^1.95.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onStartupFinished",
-		"onView:dotCodeView"
-	],
-	"main": "./extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "dot-code.searchDotCodeProjects",
-				"title": "DotCode: Search Projects"
-			},
-			{
-				"command": "dot-code.createProject",
-				"title": "DotCode: Create Project"
-			},
-			{
-				"command": "dot-code.login",
-				"title": "DotCode: Login"
-			},
-			{
-				"command": "dot-code.signUp",
-				"title": "DotCode: Sign Up"
-			},
-			{
-				"command": "dot-code.logout",
-				"title": "DotCode: Log Out"
-			},
-			{
-				"command": "dot-code.myProjects",
-				"title": "DotCode: My Projects"
-			},
-			{
-				"command": "dot-code.myAccount",
-				"title": "DotCode: My Account"
-			},
-			{
-				"command": "dot-code.refreshSideBar",
-				"title": "DotCode: Refresh Sidebar"
-			}
-		],
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "dot-code-side-bar",
-					"title": "DotCode",
-					"icon": "resources/dot.svg"
-				}
-			]
-		},
-		"views": {
-			"dot-code-side-bar": [
-				{
-					"type": "webview",
-					"id": "dot-code-side-view",
-					"name": "DotCode"
-				}
-			]
-		}
-	},
-	"scripts": {
-		"lint": "eslint .",
-		"pretest": "npm run lint",
-		"test": "vscode-test"
-	},
-	"devDependencies": {
-		"@types/mocha": "^10.0.9",
-		"@types/node": "20.x",
-		"@types/vscode": "^1.95.0",
-		"@vscode/test-cli": "^0.0.10",
-		"@vscode/test-electron": "^2.4.1",
-		"eslint": "^9.13.0"
-	},
-	"dependencies": {
-		"axios": "^1.7.7"
-	}
+  "name": "dot-code",
+  "displayName": "DotCode",
+  "description": "a vscode extension for ui-component and code snippet management application ",
+  "icon": "sources/dotcode.png",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:dotCodeView"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "dot-code.searchDotCodeProjects",
+        "title": "DotCode: Search Projects"
+      },
+      {
+        "command": "dot-code.createProject",
+        "title": "DotCode: Create Project"
+      },
+      {
+        "command": "dot-code.login",
+        "title": "DotCode: Login"
+      },
+      {
+        "command": "dot-code.signUp",
+        "title": "DotCode: Sign Up"
+      },
+      {
+        "command": "dot-code.logout",
+        "title": "DotCode: Log Out"
+      },
+      {
+        "command": "dot-code.myProjects",
+        "title": "DotCode: My Projects"
+      },
+      {
+        "command": "dot-code.myAccount",
+        "title": "DotCode: My Account"
+      },
+      {
+        "command": "dot-code.refreshSideBar",
+        "title": "DotCode: Refresh Sidebar"
+      },
+      {
+        "command": "dot-code.openUploadSidebar",
+        "title": "DotCode: Create Snippet"
+      }
+    ],
+    "viewsContainers": {
+      "panel": [
+        {
+          "id": "dot-code-secondary-sidebar",
+          "title": "DotCode",
+          "icon": "resources/dotCode.svg"
+        }
+      ],
+      "activitybar": [
+        {
+          "id": "dot-code-side-bar",
+          "title": "DotCode",
+          "icon": "resources/dot.svg"
+        }
+      ]
+    },
+    "views": {
+      "dot-code-secondary-sidebar": [
+        {
+          "id": "dot-code-upload-view",
+          "name": "Upload Snippet",
+          "type": "webview"
+        }
+      ],
+      "dot-code-side-bar": [
+        {
+          "type": "webview",
+          "id": "dot-code-side-view",
+          "name": "DotCode"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.9",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.95.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.13.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.7"
+  }
 }
