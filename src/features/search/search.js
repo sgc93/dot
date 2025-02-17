@@ -19,6 +19,7 @@ async function search() {
 			});
 		return;
 	} else {
+    vscode.window.showInformationMessage("Searching for Projects ...");
 		const searchResults = await searchProjects(query);
     if (searchResults.results > 0) {
       const selectedProject = await vscode.window.showQuickPick(
